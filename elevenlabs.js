@@ -6,13 +6,18 @@ dotenv.config();
 const client = new ElevenLabsClient({ apiKey: process.env.ELEVEN_API_TOKEN });
 
 const audioStream = await client.textToSpeech.convert("bIHbv24MWmeRgasZH58o", { // set voice id here
+     // specify the model here
+    model_id: "eleven_turbo_v2_5",
     optimize_streaming_latency: ElevenLabs.OptimizeStreamingLatency.Zero,
     output_format: ElevenLabs.OutputFormat.Mp32205032,
-    text: "bang shabanh",
+    language_code: "es",
+    text: "Welcome to the piñata with a twist—thumbtacks inside! Remember, safety first! Use this for decoration or as a unique conversation piece. Enjoy the party and stay safe!",
     voice_settings: {
-        stability: 0.1,
-        similarity_boost: 0.3,
-        style: 0.2
+        model: "multilingual_v2",
+        stability: 0.5,
+        similarity_boost: 0.8,
+        style: 0.0,
+        use_speaker_boost: true
     }
 });
 
