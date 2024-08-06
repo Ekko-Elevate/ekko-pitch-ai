@@ -6,7 +6,7 @@ dotenv.config();
 const client = new ElevenLabsClient({ apiKey: process.env.ELEVEN_API_TOKEN });
 
 const voiceGenerator = async () => {
-    const audioStream = await client.textToSpeech.convert("bIHbv24MWmeRgasZH58o", { // set voice id here
+    const audioStream = await client.textToSpeech.convert("bIHbv24MWmeRgasZH58o", { // set voice id heres
         // specify the model here
         model_id: "eleven_turbo_v2_5",
         optimize_streaming_latency: ElevenLabs.OptimizeStreamingLatency.Zero,
