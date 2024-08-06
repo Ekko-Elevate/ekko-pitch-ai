@@ -1,11 +1,6 @@
 const playwright = require("playwright");
 const path = require("path");
 
-//do not use this function at all when releasing code, its only to be used for testing
-async function sleep(milliseconds) {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
-
 async function scrapeWebsite(url) {
 	//launch chromium, set headless to true if you dont wanna see the browser pop up, else set false
 	//FYI think of head as a browser popup, the double negative is a little confusing
@@ -31,7 +26,6 @@ async function scrapeWebsite(url) {
 	await page.locator('div[class="index-module__container__h5xYe"]', {
 		timeout: 15000,
 	});
-	console.log("logged in");
 
 	// Clicks the IMG->VID button on the dashboard, leading you to the generate vid page
 	await page
@@ -42,7 +36,6 @@ async function scrapeWebsite(url) {
 
 	//wait for generate vid page to load
 	await page.waitForURL("**/generative-video");
-	console.log("on Page");
 
 	//double checks to ensure elements that only appear on the generate vid page are there.
 
@@ -86,10 +79,7 @@ async function scrapeWebsite(url) {
 	await page.click(uploadButtonSelector);
 
 	//pauses the page, this will allows devs to see the page that was rendered if they're NOT in headless mode
-	await page.pause();
-
-	const htmlContent = await page.content();
-	console.log(htmlContent);
+	// await page.pause();
 
 	await browser.close();
 }
