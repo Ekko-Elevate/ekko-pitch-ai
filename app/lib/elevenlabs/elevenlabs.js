@@ -1,11 +1,12 @@
 import { ElevenLabsClient, ElevenLabs } from "elevenlabs";
 import fs from 'fs'; //file system
 import dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const client = new ElevenLabsClient({ apiKey: process.env.ELEVEN_API_TOKEN });
 
-const voiceGenerator = async () => {
+export const voiceGenerator = async () => {
     const audioStream = await client.textToSpeech.convert("bIHbv24MWmeRgasZH58o", { // set voice id heres
         // specify the model here
         model_id: "eleven_turbo_v2_5",
