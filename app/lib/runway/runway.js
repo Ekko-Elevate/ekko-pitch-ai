@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 const path = require("path");
 
-async function scrapeWebsite(url) {
+async function crapeWebsite(url) {
 	//launch chromium, set headless to true if you dont wanna see the browser pop up, else set false
 	//FYI think of head as a browser popup, the double negative is a little confusing
 	const browser = await playwright.chromium.launch({ headless: false });
