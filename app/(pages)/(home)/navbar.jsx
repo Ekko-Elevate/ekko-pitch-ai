@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 
-const Navbar = () => {
+const Navbar = ({children}) => {
 	const [isMobile, setIsMobile] = useState(false);
 	const [isOpen, setIsOpen] = useState(false); //used for HAMBURGER
 
@@ -32,7 +32,7 @@ const Navbar = () => {
 	};
 
 	return (
-	  <nav className="fixed w-full h-16 shadow-xl bg-[#02254D]">
+	  <nav className="sticky top-0 w-full h-16 shadow-xl bg-[#02254D] z-50">
 		<div className="w-full h-full flex justify-between items-center px-4 sm:px-8 md:px-20">
 			<div className="justify-between flex space-x-8 items-center">
 				<Link href='/'>
