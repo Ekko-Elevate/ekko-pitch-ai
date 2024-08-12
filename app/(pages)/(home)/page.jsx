@@ -1,7 +1,7 @@
 export default function Home() {
 	return (
-		<>
-			<h1 className="text-xs text-blue-500"> RootPage</h1>
-		</>
+		<div className="flex items- justify-center min-h-screen bg-[#fff7db]">
+        	<h1 className="text-4xl font-bold text-blue-900">Welcome to the Home Page</h1>
+    </div>
 	);
 }
