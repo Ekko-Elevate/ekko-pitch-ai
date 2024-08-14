@@ -29,6 +29,18 @@ export async function POST(req) {
 	console.log(eventType);
 	try {
 		switch (eventType) {
+			case "customer.subscription.created": {
+				const subscription = event.data.object;
+				const auth0UserId = subscription.metadata.auth0UserId;
+
+				console.log(`New subscription created for Auth0 user: ${auth0UserId}`);
+				console.log(`Subscription ID: ${subscription.id}`);
+
+				// Here you can update your database to link the Stripe subscription
+				// to the Auth0 user if needed
+
+				break;
+			}
 			//called when user unsubscribes
 			case "customer.subscription.deleted": {
 				const subscription = await stripe.subscriptions.retrieve(
@@ -53,11 +65,15 @@ export async function POST(req) {
 				// Retrieve the customer details
 				const customer = await stripe.customers.retrieve(customerId);
 
+				// Get the Auth0 user ID from the subscription metadata
+				const auth0UserId = subscription.metadata.auth0UserId;
+				console.log(customer);
 				console.log(
 					`Subscription payment successful for customer ${customer.email}`
 				);
 				console.log(`Subscription ID: ${subscriptionId}`);
 				console.log(`Amount paid: ${invoice.amount_paid}`);
+				console.log(`Auth0 User ID: ${auth0UserId}`);
 
 				break;
 			}

@@ -1,23 +1,54 @@
-import { NextRequest, NextResponse } from "next/server";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
-export async function POST(request) {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export async function POST(req) {
+	// Parse the request body
+	let body;
 	try {
-		const { amount } = await request.json();
+		body = await req.json();
+	} catch (error) {
+		console.error("Failed to parse request body:", error);
+		return NextResponse.json(
+			{ error: "Invalid request body" },
+			{ status: 400 }
+		);
+	}
 
-		const paymentIntent = await stripe.paymentIntents.create({
-			amount: amount,
-			currency: "usd",
-			automatic_payment_methods: { enabled: true },
+	const { priceId, auth0UserId } = body;
+
+	if (!priceId || !auth0UserId) {
+		return NextResponse.json(
+			{ error: "Missing required parameters" },
+			{ status: 400 }
+		);
+	}
+
+	try {
+		const session = await stripe.checkout.sessions.create({
+			mode: "subscription",
+			payment_method_types: ["card"],
+			line_items: [
+				{
+					price: priceId,
+					quantity: 1,
+				},
+			],
+			//append this to end /success?session_id={CHECKOUT_SESSION_ID}
+			success_url: `${req.headers.get("origin")}`,
+			//append this to the end /canceled
+			cancel_url: `${req.headers.get("origin")}/canceled`,
+			subscription_data: {
+				metadata: {
+					auth0UserId: auth0UserId,
+				},
+			},
 		});
 
-		return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+		return NextResponse.json({ url: session.url });
 	} catch (error) {
-		console.error("Internal Error:", error);
-		// Handle other errors (e.g., network issues, parsing errors)
-		return NextResponse.json(
-			{ error: `Internal Server Error: ${error}` },
-			{ status: 500 }
-		);
+		console.error("Stripe error:", error);
+		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 }

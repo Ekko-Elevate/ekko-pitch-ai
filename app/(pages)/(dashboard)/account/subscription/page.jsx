@@ -23,9 +23,41 @@ export const plans = [
 ];
 
 const Pricing = () => {
-	const { user, error, isLoading } = useUser();
+	let { user, error, isLoading } = useUser();
 	const [plan, setPlan] = useState(plans[0]);
+	const [isLoadingCheckout, setIsLoadingCheckout] = useState(false);
 
+	const handleSubscribe = async () => {
+		setIsLoadingCheckout(true);
+		try {
+			const response = await fetch("/api/payment", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					priceId: plan.priceId,
+					auth0UserId: user?.sub,
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const { url } = await response.json();
+			if (url) {
+				window.location.href = url;
+			} else {
+				throw new Error("No URL returned from server");
+			}
+		} catch (error) {
+			console.error("Error creating checkout session:", error);
+			// Handle the error (e.g., show an error message to the user)
+		} finally {
+			setIsLoadingCheckout(false);
+		}
+	};
 	return (
 		<>
 			<section id="pricing">
@@ -107,15 +139,13 @@ const Pricing = () => {
 									))}
 								</ul>
 								<div className="space-y-2">
-									<a
-										className="btn btn-primary btn-block "
-										target="_blank"
-										href={
-											plan.link /*+ "?prefilled_email=" + session?.user?.email*/
-										}
+									<button
+										className="btn btn-primary btn-block"
+										onClick={handleSubscribe}
+										disabled={isLoadingCheckout}
 									>
-										Subscribe
-									</a>
+										{isLoadingCheckout ? "Loading..." : "Subscribe"}
+									</button>
 								</div>
 							</div>
 						</div>
