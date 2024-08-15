@@ -116,7 +116,7 @@ const Nav = () => {
 				{!isMobile && (
 					<button
 						onClick={toggleMenu}
-						className="absolute -right-3 top-2 bg-zinc-600 rounded-full p-1 z-50"
+						className="absolute -right-6 top-28 bg-zinc-600 rounded-full p-3 z-50"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
