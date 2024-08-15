@@ -12,7 +12,7 @@ const Nav = () => {
 	const Menus = [
 		{ title: "Dashboard", src: "Chart_fill" },
 		{ title: "Inbox", src: "Chat" },
-		{ title: "Accounts", src: "User", gap: true },
+		{ title: "Accounts", src: "User" },
 		// { title: "Schedule ", src: "Calendar" },
 		// { title: "Search", src: "Search" },
 		// { title: "Analytics", src: "Chart" },
@@ -149,22 +149,16 @@ const Nav = () => {
 						</div>
 					)}
 				</div>
-				<h1
-					className={`text-white origin-left font-medium text-lg duration-200 text-center ${
-						!open && !isMobile && "scale-0"
-					}`}
-				>
-					Designer
-				</h1>
 				<ul className="flex-1 pt-6 overflow-y-auto">
 					{Menus.map((Menu, index) => (
 						<li
 							key={index}
 							className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
 								Menu.gap ? "mt-9" : "mt-2"
-							} ${index === 0 && "bg-light-white"} `}
+							}`}
 						>
 							<img
+								className="w-20"
 								src={`https://cdn-icons-png.flaticon.com/128/739/739249.png`}
 							/>
 							<span
