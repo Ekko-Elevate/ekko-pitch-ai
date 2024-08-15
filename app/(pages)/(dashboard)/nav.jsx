@@ -10,7 +10,14 @@ const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const Menus = [
-		// ... (Menus array remains unchanged)
+		{ title: "Dashboard", src: "Chart_fill" },
+		{ title: "Inbox", src: "Chat" },
+		{ title: "Accounts", src: "User", gap: true },
+		// { title: "Schedule ", src: "Calendar" },
+		// { title: "Search", src: "Search" },
+		// { title: "Analytics", src: "Chart" },
+		// { title: "Files ", src: "Folder", gap: true },
+		// { title: "Setting", src: "Setting" },
 	];
 
 	const toggleMenu = () => {
@@ -78,7 +85,7 @@ const Nav = () => {
 							? "fixed inset-0 z-40 w-full left-0"
 							: "fixed inset-y-0 z-40 w-20 -left-20"
 						: open
-						? "w-40"
+						? "w-60"
 						: "w-24"
 				} bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative`}
 			>
@@ -130,17 +137,16 @@ const Nav = () => {
 					</button>
 				)}
 
-				<div className="flex justify-center items-center mt-8 mb-4">
+				<div className="flex  items-center mb-4">
 					{user && (
-						<img
-							src={user.picture}
-							className={`cursor-pointer duration-500 ${
-								open && "rotate-[360deg]"
-							} ${isMobile ? "w-20 h-20" : ""}`}
-							className={`cursor-pointer duration-500 ${
-								open && "rotate-[360deg]"
-							} ${isMobile ? "w-20 h-20 max-w-[200px]" : ""}`}
-						/>
+						<div className={`flex ${open ? "justify-center" : ""}`}>
+							<img
+								src={user.picture}
+								className={`cursor-pointer transition-transform duration-500 ${
+									open ? "rotate-[360deg]" : ""
+								} ${isMobile ? "w-20 h-20 max-w-[200px]" : ""}`}
+							/>
+						</div>
 					)}
 				</div>
 				<h1
