@@ -49,15 +49,18 @@ const Nav = ({ isMobile }) => {
 
 			{/* Main navigation content */}
 			<div
-				className={`${
-					isMobile
-						? isMenuOpen
-							? "fixed inset-0 z-40 w-full left-0 flex flex-col items-start pt-16 pl-[25%]"
-							: "hidden"
-						: open
-						? "w-72"
-						: "w-24"
-				} bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative`}
+				className={`
+					${
+						isMobile
+							? isMenuOpen
+								? "fixed inset-0 z-40 w-full left-0 flex flex-col items-start pt-16 pl-[25%] opacity-100"
+								: "fixed inset-0 z-40 w-full left-[-100%] flex flex-col items-start pt-16 pl-[25%] opacity-0"
+							: open
+							? "w-52"
+							: "w-20"
+					} 
+					bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative
+				`}
 			>
 				{/* Close button for mobile */}
 				{isMobile && isMenuOpen && (
