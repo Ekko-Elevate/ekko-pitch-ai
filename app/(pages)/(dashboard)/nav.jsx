@@ -1,24 +1,18 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-const Nav = () => {
+const Menus = [
+	{ title: "Dashboard", src: "Chart_fill" },
+	{ title: "Inbox", src: "Chat" },
+	{ title: "Accounts", src: "User" },
+];
+
+const Nav = ({ isMobile }) => {
 	const { user, error, isLoading } = useUser();
 
-	const [open, setOpen] = useState(true);
-	const [isMobile, setIsMobile] = useState(false);
+	const [open, setOpen] = useState(!isMobile);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	const Menus = [
-		{ title: "Dashboard", src: "Chart_fill" },
-		{ title: "Inbox", src: "Chat" },
-		{ title: "Accounts", src: "User" },
-		// { title: "Schedule ", src: "Calendar" },
-		// { title: "Search", src: "Search" },
-		// { title: "Analytics", src: "Chart" },
-		// { title: "Files ", src: "Folder", gap: true },
-		// { title: "Setting", src: "Setting" },
-	];
 
 	const toggleMenu = () => {
 		if (isMobile) {
@@ -28,36 +22,12 @@ const Nav = () => {
 		}
 	};
 
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
-		handleResize();
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
-
-	useEffect(() => {
-		if (isMobile) {
-			document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
-		}
-		return () => {
-			document.body.style.overflow = "auto";
-		};
-	}, [isMobile, isMenuOpen]);
-
-	useEffect(() => {
-		if (user) {
-			console.log(user);
-		}
-	}, [user]);
-
 	return (
 		<>
 			{/* Hamburger menu for mobile */}
 			{isMobile && (
 				<button
-					onClick={() => setIsMenuOpen(!isMenuOpen)}
+					onClick={toggleMenu}
 					className="fixed top-4 left-4 z-50 text-white bg-zinc-600 p-2 rounded-md"
 				>
 					<svg
@@ -82,17 +52,17 @@ const Nav = () => {
 				className={`${
 					isMobile
 						? isMenuOpen
-							? "fixed inset-0 z-40 w-full left-0"
-							: "fixed inset-y-0 z-40 w-20 -left-20"
+							? "fixed inset-0 z-40 w-full left-0 flex flex-col items-start pt-16 pl-[25%]"
+							: "hidden"
 						: open
-						? "w-60"
+						? "w-72"
 						: "w-24"
 				} bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative`}
 			>
 				{/* Close button for mobile */}
 				{isMobile && isMenuOpen && (
 					<button
-						onClick={() => setIsMenuOpen(false)}
+						onClick={toggleMenu}
 						className="absolute top-4 right-4 text-white z-50 p-2"
 					>
 						<svg
@@ -137,37 +107,50 @@ const Nav = () => {
 					</button>
 				)}
 
-				<div className="flex  items-center mb-4">
+				<ul
+					className={`flex-1 w-full flex flex-col ${
+						isMobile ? "" : "items-center"
+					} pt-6 overflow-y-auto`}
+				>
 					{user && (
-						<div className={`flex ${open ? "justify-center" : ""}`}>
-							<img
-								src={user.picture}
-								className={`cursor-pointer transition-transform duration-500 ${
-									open ? "rotate-[360deg]" : ""
-								} ${isMobile ? "w-20 h-20 max-w-[200px]" : ""}`}
-							/>
-						</div>
+						<li className="flex w-full rounded-md cursor-pointer hover:bg-light-white text-gray-300 mb-4">
+							<div className="flex items-center w-full px-4 py-2">
+								<img
+									src={user.picture}
+									className="w-12 h-12 rounded-full"
+									alt="User profile"
+								/>
+								<span
+									className={`${
+										!open && !isMobile ? "hidden" : ""
+									} origin-left duration-200 ml-4 text-lg`}
+								>
+									Profile
+								</span>
+							</div>
+						</li>
 					)}
-				</div>
-				<ul className="flex-1 pt-6 overflow-y-auto">
 					{Menus.map((Menu, index) => (
 						<li
 							key={index}
-							className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-								Menu.gap ? "mt-9" : "mt-2"
+							className={`flex w-full rounded-md cursor-pointer hover:bg-light-white text-gray-300 ${
+								Menu.gap ? "mt-9" : "mt-4"
 							}`}
 						>
-							<img
-								className="w-20"
-								src={`https://cdn-icons-png.flaticon.com/128/739/739249.png`}
-							/>
-							<span
-								className={`${
-									!open && !isMobile && "hidden"
-								} origin-left duration-200`}
-							>
-								{Menu.title}
-							</span>
+							<div className="flex items-center w-full px-4 py-2">
+								<img
+									className="w-12 h-12"
+									src={`https://cdn-icons-png.flaticon.com/128/739/739249.png`}
+									alt={Menu.title}
+								/>
+								<span
+									className={`${
+										!open && !isMobile ? "hidden" : ""
+									} origin-left duration-200 ml-4 text-lg`}
+								>
+									{Menu.title}
+								</span>
+							</div>
 						</li>
 					))}
 				</ul>
