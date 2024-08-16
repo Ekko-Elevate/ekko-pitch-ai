@@ -22,7 +22,7 @@ export const plans = [
 	},*/
 ];
 
-const Pricing = () => {
+export default function Pricing() {
 	let { user, error, isLoading } = useUser();
 	const [plan, setPlan] = useState(plans[0]);
 	const [isLoadingCheckout, setIsLoadingCheckout] = useState(false);
@@ -180,6 +180,4 @@ const Pricing = () => {
 			</div>
 		</>
 	);
-};
-
-export default Pricing;
+}

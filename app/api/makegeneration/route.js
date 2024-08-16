@@ -2,8 +2,8 @@
 // import { musicGenerator } from "../../lib/musicgen/elevenlabs"; // Adjust the import path as necessary
 
 // export async function GET(request) {
-// 	// voiceGenerator();
-// 	return new Response("Hello, Next.js!");
+//     // voiceGenerator();
+//     return new Response("Hello, Next.js!");
 // }
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 

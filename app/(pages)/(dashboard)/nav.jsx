@@ -8,7 +8,7 @@ const Menus = [
 	{ title: "Accounts", src: "User" },
 ];
 
-const Nav = ({ isMobile }) => {
+export default function Nav({ isMobile }) {
 	const { user } = useUser();
 	const [isOpen, setIsOpen] = useState(!isMobile);
 
@@ -78,6 +78,4 @@ const Nav = ({ isMobile }) => {
 			)}
 		</nav>
 	);
-};
-
-export default Nav;
+}
