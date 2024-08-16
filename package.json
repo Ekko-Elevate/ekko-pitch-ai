@@ -19,12 +19,15 @@
     "elevenlabs": "^0.13.0",
     "framer-motion": "^11.3.24",
     "install": "^0.13.0",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.2",
     "next": "14.2.5",
     "npm": "^10.8.2",
     "playwright": "^1.46.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "sharp": "^0.33.4",
     "stripe": "^16.7.0"
   },
   "devDependencies": {

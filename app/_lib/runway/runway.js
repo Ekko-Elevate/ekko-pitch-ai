@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 const path = require("path");
 
-async function crapeWebsite(url) {
+async function scrapeWebsite(url) {
 	//launch chromium, set headless to true if you dont wanna see the browser pop up, else set false
 	//FYI think of head as a browser popup, the double negative is a little confusing
 	const browser = await playwright.chromium.launch({ headless: false });
@@ -13,7 +13,7 @@ async function crapeWebsite(url) {
 	await page.goto(url);
 
 	// Fill in the login form with user and password
-	await page.fill('input[name="usernameOrEmail"]', "arnqtran17@gmail.com");
+	await page.fill('input[name="usernameOrEmail"]', "aaronqtran6@gmail.com");
 	await page.fill('input[name="password"]', "123123!Password");
 
 	// Click the submit button and wait for navigation
@@ -52,7 +52,7 @@ async function crapeWebsite(url) {
 	await page.waitForSelector(fileInputSelector, { state: "attached" });
 
 	// Set the file to be uploaded
-	const filePath = path.join(__dirname, "test.jpeg");
+	const filePath = path.join(__dirname, "astro-transformed.jpeg");
 	await page.setInputFiles(fileInputSelector, filePath);
 
 	await page
@@ -69,7 +69,7 @@ async function crapeWebsite(url) {
 
 	// Type the text prompt here
 	await page.keyboard.type(
-		"The camera pans over a cozy, well-lit living room. A cat-shaped humidifier sits on a coffee table, emitting a gentle mist."
+		"The camera pans over as the bird flaps it's wings, 60fps."
 	);
 
 	//clicks the upload button
