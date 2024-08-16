@@ -10,46 +10,38 @@ const Menus = [
 
 const Nav = ({ isMobile }) => {
 	const { user } = useUser();
-	//mobile users should start closed open but desktop people should
 	const [isOpen, setIsOpen] = useState(!isMobile);
 
 	const toggleMenu = () => setIsOpen(!isOpen);
 
 	const navClasses = `
-    fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out
-    ${
-			isMobile
-				? isOpen
-					? "w-60 z-40"
-					: "w-0 -left-full"
-				: isOpen
-				? "w-52"
-				: "w-20"
-		}
-	`;
+        fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out z-50
+        ${
+					isMobile
+						? isOpen
+							? "w-60"
+							: "w-0 -left-full"
+						: isOpen
+						? "w-52"
+						: "w-20"
+				}
+    `;
 
 	return (
-		<>
+		<nav className={navClasses}>
 			{isMobile && (
-				<button
-					onClick={toggleMenu}
-					className="fixed top-4 left-4 z-50 text-white bg-zinc-600 p-2 rounded-md"
-				>
-					{isOpen ? "✕" : "☰"}
-				</button>
-			)}
-
-			<nav className={navClasses}>
-				{!isMobile && (
+				<div className="h-16 flex items-center px-4">
 					<button
 						onClick={toggleMenu}
-						className="absolute -right-6 top-28 bg-zinc-600 rounded-full p-3"
+						className="text-white bg-zinc-700 p-2 rounded-md"
 					>
-						{isOpen ? "◀" : "▶"}
+						{isOpen ? "✕" : "☰"}
 					</button>
-				)}
+				</div>
+			)}
 
-				<ul className={`pt-${isMobile ? "16" : "6"} h-full overflow-y-auto`}>
+			<div className="h-[calc(100%-4rem)] overflow-y-auto">
+				<ul className="pt-4">
 					{user && (
 						<li className="flex items-center px-4 py-2 mb-4 text-gray-300">
 							<img
@@ -74,8 +66,17 @@ const Nav = ({ isMobile }) => {
 						</li>
 					))}
 				</ul>
-			</nav>
-		</>
+			</div>
+
+			{!isMobile && (
+				<button
+					onClick={toggleMenu}
+					className="absolute -right-5 top-16 bg-zinc-600 rounded-full p-2"
+				>
+					{isOpen ? "◀" : "▶"}
+				</button>
+			)}
+		</nav>
 	);
 };
 
