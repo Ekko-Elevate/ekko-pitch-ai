@@ -56,10 +56,10 @@ const Nav = ({ isMobile }) => {
 								? "fixed inset-0 z-40 w-full left-0 flex flex-col items-start pt-16 pl-[25%] opacity-100"
 								: "fixed inset-0 z-40 w-full left-[-100%] flex flex-col items-start pt-16 pl-[25%] opacity-0"
 							: open
-							? "w-52"
-							: "w-20"
+							? "w-52 absolute"
+							: "w-20 absolute"
 					} 
-					bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative
+					bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col
 				`}
 			>
 				{/* Close button for mobile */}

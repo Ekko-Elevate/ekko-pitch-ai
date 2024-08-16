@@ -15,10 +15,12 @@ export default function DashboardLayout({ children }) {
 	}, []);
 
 	return (
-		<div className="relative h-screen w-screen overflow-hidden">
+		<div className="flex h-screen w-screen overflow-hidden">
 			<Nav isMobile={isMobile} />
 			<main
-				className={`h-full w-full overflow-y-auto ${isMobile ? "" : "ml-24"}`}
+				className={`flex-grow overflow-y-auto p-4 ${
+					isMobile ? "pt-16" : "ml-20"
+				}`}
 			>
 				{children}
 			</main>
