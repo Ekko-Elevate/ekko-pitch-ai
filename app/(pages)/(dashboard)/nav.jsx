@@ -1,177 +1,80 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-const Nav = () => {
-	const { user, error, isLoading } = useUser();
+const Menus = [
+	{ title: "Dashboard", src: "Chart_fill" },
+	{ title: "Inbox", src: "Chat" },
+	{ title: "Accounts", src: "User" },
+];
 
-	const [open, setOpen] = useState(true);
-	const [isMobile, setIsMobile] = useState(false);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Nav = ({ isMobile }) => {
+	const { user } = useUser();
+	//mobile users should start closed open but desktop people should
+	const [isOpen, setIsOpen] = useState(!isMobile);
 
-	const Menus = [
-		// ... (Menus array remains unchanged)
-	];
+	const toggleMenu = () => setIsOpen(!isOpen);
 
-	const toggleMenu = () => {
-		if (isMobile) {
-			setIsMenuOpen(!isMenuOpen);
-		} else {
-			setOpen(!open);
+	const navClasses = `
+    fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out
+    ${
+			isMobile
+				? isOpen
+					? "w-60 z-40"
+					: "w-0 -left-full"
+				: isOpen
+				? "w-52"
+				: "w-20"
 		}
-	};
-
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
-		handleResize();
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
-
-	useEffect(() => {
-		if (isMobile) {
-			document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
-		}
-		return () => {
-			document.body.style.overflow = "auto";
-		};
-	}, [isMobile, isMenuOpen]);
-
-	useEffect(() => {
-		if (user) {
-			console.log(user);
-		}
-	}, [user]);
+	`;
 
 	return (
 		<>
-			{/* Hamburger menu for mobile */}
 			{isMobile && (
 				<button
-					onClick={() => setIsMenuOpen(!isMenuOpen)}
+					onClick={toggleMenu}
 					className="fixed top-4 left-4 z-50 text-white bg-zinc-600 p-2 rounded-md"
 				>
-					<svg
-						className="w-6 h-4"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M4 6h16M4 12h16M4 18h16"
-						/>
-					</svg>
+					{isOpen ? "✕" : "☰"}
 				</button>
 			)}
 
-			{/* Main navigation content */}
-			<div
-				className={`${
-					isMobile
-						? isMenuOpen
-							? "fixed inset-0 z-40 w-full left-0"
-							: "fixed inset-y-0 z-40 w-20 -left-20"
-						: open
-						? "w-40"
-						: "w-24"
-				} bg-zinc-600 h-screen min-h-screen transition-all duration-300 ease-in-out flex flex-col relative`}
-			>
-				{/* Close button for mobile */}
-				{isMobile && isMenuOpen && (
-					<button
-						onClick={() => setIsMenuOpen(false)}
-						className="absolute top-4 right-4 text-white z-50 p-2"
-					>
-						<svg
-							className="w-6 h-6"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M6 18L18 6M6 6l12 12"
-							/>
-						</svg>
-					</button>
-				)}
-
-				{/* Open/close arrow for desktop */}
+			<nav className={navClasses}>
 				{!isMobile && (
 					<button
 						onClick={toggleMenu}
-						className="absolute -right-3 top-2 bg-zinc-600 rounded-full p-1 z-50"
+						className="absolute -right-6 top-28 bg-zinc-600 rounded-full p-3"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className={`h-5 w-5 text-white transform transition-transform duration-300 ease-in-out ${
-								open ? "rotate-0" : "rotate-180"
-							}`}
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M15 19l-7-7 7-7"
-							/>
-						</svg>
+						{isOpen ? "◀" : "▶"}
 					</button>
 				)}
 
-				<div className="flex justify-center items-center mt-8 mb-4">
+				<ul className={`pt-${isMobile ? "16" : "6"} h-full overflow-y-auto`}>
 					{user && (
-						<img
-							src={user.picture}
-							className={`cursor-pointer duration-500 ${
-								open && "rotate-[360deg]"
-							} ${isMobile ? "w-20 h-20" : ""}`}
-							className={`cursor-pointer duration-500 ${
-								open && "rotate-[360deg]"
-							} ${isMobile ? "w-20 h-20 max-w-[200px]" : ""}`}
-						/>
+						<li className="flex items-center px-4 py-2 mb-4 text-gray-300">
+							<img
+								src={user.picture}
+								className="w-12 h-12 rounded-full"
+								alt="User profile"
+							/>
+							{isOpen && <span className="ml-4 text-lg">Profile</span>}
+						</li>
 					)}
-				</div>
-				<h1
-					className={`text-white origin-left font-medium text-lg duration-200 text-center ${
-						!open && !isMobile && "scale-0"
-					}`}
-				>
-					Designer
-				</h1>
-				<ul className="flex-1 pt-6 overflow-y-auto">
-					{Menus.map((Menu, index) => (
+					{Menus.map((menu, index) => (
 						<li
 							key={index}
-							className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-								Menu.gap ? "mt-9" : "mt-2"
-							} ${index === 0 && "bg-light-white"} `}
+							className="flex items-center px-4 py-2 mt-4 text-gray-300 cursor-pointer hover:bg-zinc-500"
 						>
 							<img
+								className="w-12 h-12"
 								src={`https://cdn-icons-png.flaticon.com/128/739/739249.png`}
+								alt={menu.title}
 							/>
-							<span
-								className={`${
-									!open && !isMobile && "hidden"
-								} origin-left duration-200`}
-							>
-								{Menu.title}
-							</span>
+							{isOpen && <span className="ml-4 text-lg">{menu.title}</span>}
 						</li>
 					))}
 				</ul>
-			</div>
+			</nav>
 		</>
 	);
 };

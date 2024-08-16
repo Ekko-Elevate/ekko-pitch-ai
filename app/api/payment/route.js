@@ -3,7 +3,9 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export async function POST(req) {
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
+
+export const POST = withApiAuthRequired(async function paymentRoute(req) {
 	// Parse the request body
 	let body;
 	try {
@@ -38,7 +40,7 @@ export async function POST(req) {
 			//append this to end /success?session_id={CHECKOUT_SESSION_ID}
 			success_url: `${req.headers.get("origin")}`,
 			//append this to the end /canceled
-			cancel_url: `${req.headers.get("origin")}/canceled`,
+			cancel_url: `${req.headers.get("origin")}`,
 			subscription_data: {
 				metadata: {
 					auth0UserId: auth0UserId,
