@@ -10,7 +10,6 @@ const Menus = [
 
 const Nav = ({ isMobile }) => {
 	const { user } = useUser();
-	//mobile users should start closed open but desktop people should
 	const [isOpen, setIsOpen] = useState(!isMobile);
 
 	const toggleMenu = () => setIsOpen(!isOpen);
@@ -26,7 +25,7 @@ const Nav = ({ isMobile }) => {
 				? "w-52"
 				: "w-20"
 		}
-	`;
+  `;
 
 	return (
 		<>
