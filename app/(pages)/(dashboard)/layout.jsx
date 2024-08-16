@@ -6,17 +6,19 @@ export default function DashboardLayout({ children }) {
 	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
-		const handleResize = () => setIsMobile(window.innerWidth < 768);
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
 		handleResize();
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
 	return (
-		<div className="flex h-screen w-screen overflow-hidden">
+		<div className="relative h-screen w-screen overflow-hidden">
 			<Nav isMobile={isMobile} />
 			<main
-				className={`flex-grow overflow-y-auto p-4 ${isMobile ? "" : "ml-20"}`}
+				className={`h-full w-full overflow-y-auto ${isMobile ? "" : "ml-24"}`}
 			>
 				{children}
 			</main>
