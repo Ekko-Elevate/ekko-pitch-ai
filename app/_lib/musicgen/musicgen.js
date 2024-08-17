@@ -4,20 +4,20 @@ const https = require("https"); // or 'https' for https:// URLs
 const fs = require("fs");
 
 const input = {
-	prompt: "upbeat hiphop instrumental",
+	prompt: "overwatch lijiang tower",
 	model_version: "stereo-large",
 	output_format: "mp3",
 	normalization_strategy: "peak",
 	duration: 15,
 };
 
-export async function musicGenerator() {
+export async function musicGenerator(id="1234") {
 	const output = await replicate.run(
 		"meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
 		{ input }
 	);
 	console.log(output);
-	const file = fs.createWriteStream("file.mp3");
+	const file = fs.createWriteStream(`app/api/makegeneration/_music/music${id}.mp3`);
 	const request = https.get(output, function (response) {
 		response.pipe(file);
 
