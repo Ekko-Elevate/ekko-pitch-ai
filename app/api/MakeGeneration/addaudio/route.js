@@ -5,8 +5,8 @@ import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
 
 export async function GET(request) {
 	let id = "1234";
-	await voiceGenerator();
 	await musicGenerator();
+	await voiceGenerator();
 	await mergeAudio(`./app/api/makegeneration/_voice/voice${id}.mp3`, `./app/api/makegeneration/_music/music${id}.mp3`, `./app/api/makegeneration/_audio/audio${id}.mp3`);
 	console.log("Audio merged");
 	await vidAddAudio(`./app/api/makegeneration/_video/video${id}.mp4`, `./app/api/makegeneration/_audio/audio${id}.mp3`, `./app/api/makegeneration/_output/output${id}.mp4`);
