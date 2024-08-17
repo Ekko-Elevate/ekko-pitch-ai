@@ -10,12 +10,11 @@ const Menus = [
 
 export default function Nav({ isMobile }) {
 	const { user } = useUser();
-	const [isOpen, setIsOpen] = useState(!isMobile);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleMenu = () => setIsOpen(!isOpen);
 
-	const navClasses = `
-        fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out z-50
+	const navClasses = `fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out z-50
         ${
 					isMobile
 						? isOpen
@@ -24,8 +23,7 @@ export default function Nav({ isMobile }) {
 						: isOpen
 						? "w-52"
 						: "w-20"
-				}
-    `;
+				}`;
 
 	return (
 		<nav className={navClasses}>

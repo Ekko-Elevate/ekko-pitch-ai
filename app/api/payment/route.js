@@ -53,4 +53,4 @@ export const POST = withApiAuthRequired(async function paymentRoute(req) {
 		console.error("Stripe error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
-})
+});

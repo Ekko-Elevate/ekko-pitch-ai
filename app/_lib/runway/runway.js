@@ -13,8 +13,8 @@ async function scrapeWebsite(url) {
 	await page.goto(url);
 
 	// Fill in the login form with user and password
-	await page.fill('input[name="usernameOrEmail"]', "aaronqtran6@gmail.com");
-	await page.fill('input[name="password"]', "123123!Password");
+	await page.fill('input[name="usernameOrEmail"]', "dahpaladin123@gmail.com");
+	await page.fill('input[name="password"]', "123Password!");
 
 	// Click the submit button and wait for navigation
 	await page.click('button[type="submit"]');
@@ -52,34 +52,39 @@ async function scrapeWebsite(url) {
 	await page.waitForSelector(fileInputSelector, { state: "attached" });
 
 	// Set the file to be uploaded
-	const filePath = path.join(__dirname, "astro-transformed.jpeg");
+	const filePath = path.join(__dirname, "meow.jpg");
+
 	await page.setInputFiles(fileInputSelector, filePath);
 
-	await page
-		.locator(".ImagePromptPreview___StyledPreview4-sc-1x2rj1o-1")
-		.waitFor();
+	// const element = await page.waitForSelector(
+	// 	".ImagePromptPreview___StyledPreview4-sc-1x2rj1o-1",
+	// 	{ state: "attached" }
+	// );
+	// await element.waitForElementState("visible");
 
 	// waits for the text entry box to be ready
-	let textboxSelector =
-		"#data-panel-id-left-panel-panel-bottom > div > div > div > div";
-	await page.waitForSelector(textboxSelector, { state: "attached" });
+	const textElement = page.locator(
+		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
+	);
 
-	// Click the element to focus it
-	await page.click(textboxSelector);
-
-	// Type the text prompt here
+	await textElement.waitFor();
+	await page.focus(
+		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
+	);
 	await page.keyboard.type(
-		"The camera pans over as the bird flaps it's wings, 60fps."
+		"The camera pans over as the bird flaps its wings, 60fps."
 	);
 
 	//clicks the upload button
-	let uploadButtonSelector =
-		"#data-panel-id-1 > div.Base__Box-sc-1rhgz1n-0.InputsPanel__Container-sc-1nhvx2b-0.InputsPanel___StyledContainer-sc-1nhvx2b-1.bdjOmO > div > div > div > div.Gen2NextUIV1PanelGroup__panelContainer__kVYUm > div.Base__Box-sc-thne2y-0.Footer__Container-sc-1bv423v-0.hLgEP > div:nth-child(2) > div.Base__Box-sc-thne2y-0.GenerateButtonTooltip___StyledBox-sc-12r0983-0.Xqsd > button";
-	await page.waitForSelector(uploadButtonSelector, { state: "visible" });
-	await page.click(uploadButtonSelector);
+
+	const generateButtonSelector =
+		"#data-panel-id-1 > div.Base__Box-sc-1rhgz1n-0.InputsPanel__Container-sc-1nhvx2b-0.InputsPanel___StyledContainer-sc-1nhvx2b-1.bdjOmO > div > div > div > div.Gen2NextUIV1PanelGroup__panelContainer__kVYUm > div.Base__Box-sc-thne2y-0.Footer__Container-sc-1bv423v-0.hLgEP > div > div > button";
+	const generateButtonElement = page.locator(generateButtonSelector);
+	await generateButtonElement.waitFor();
+	await page.click(generateButtonSelector);
 
 	//pauses the page, this will allows devs to see the page that was rendered if they're NOT in headless mode
-	// await page.pause();
+	await page.pause();
 
 	await browser.close();
 }
