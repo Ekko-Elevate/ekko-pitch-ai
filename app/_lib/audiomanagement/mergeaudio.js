@@ -4,7 +4,7 @@ const ffmpegPath = path.resolve(process.cwd(), 'node_modules', '@ffmpeg-installe
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 
-export async function mergeAudio(voicepath, musicpath, outputpath, duration, voicedelay = "0", musicdelay = "0"){ 
+export async function mergeAudio(voicepath, musicpath, outputpath, voicedelay = "0", musicdelay = "0"){ 
     return new Promise((resolve, reject) => {
         let command = ffmpeg()
         .input(voicepath)
