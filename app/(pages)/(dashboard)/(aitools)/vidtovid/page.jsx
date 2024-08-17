@@ -44,14 +44,14 @@ export default function VidToVid() {
 				</div>
 				<div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
 					<div className="col-span-1 sm:col-span-3 flex flex-col items-center justify-start gap-6 sm:gap-10 bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6">
-						<form className="w-full" onSubmit={handleSubmit}>
-							<div className="mb-4 sm:mb-6 flex flex-col">
+						<form className="w-full flex-row" onSubmit={handleSubmit}>
+							<div className="grow mb-4 sm:mb-6 flex flex-col">
 								<label htmlFor="video-upload" className="text-white mb-2">
 									Upload Video
 								</label>
-								<label className="flex items-center justify-center bg-white rounded-lg border-2 border-white cursor-pointer h-16 sm:h-20">
+								<label className="flex h-full items-center justify-center bg-white rounded-lg border-2 border-white cursor-pointer sm:h-20">
 									<span className="text-gray-700">
-										{videoFile ? videoFile.name : "Upload File"}
+										{videoFile ? "Video Selected" : "Upload Video"}
 									</span>
 									<input
 										type="file"

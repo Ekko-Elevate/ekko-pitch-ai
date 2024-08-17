@@ -36,12 +36,6 @@ export async function POST(req) {
 		const buffer = Buffer.from(bytes);
 		await fs.writeFile(filePath, buffer);
 
-		// // Save the prompts in a text file
-		// const promptsFilename = `${timestamp}_prompts.txt`;
-		// const promptsPath = path.join(uploadDir, promptsFilename);
-		// const promptsContent = `Voice Over Prompt: ${voiceOverPrompt}\nMusic Prompt: ${musicPrompt}`;
-		// await fs.writeFile(promptsPath, promptsContent);
-
 		return NextResponse.json({ pass: "imported" }, { status: 200 });
 	} catch (error) {
 		console.error("Error:", error);
