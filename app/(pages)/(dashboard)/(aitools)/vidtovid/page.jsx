@@ -1,10 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function VidToVid() {
 	const [videoFile, setVideoFile] = useState(null);
 	const [voiceOverPrompt, setVoiceOverPrompt] = useState("");
 	const [musicPrompt, setMusicPrompt] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [videoUrl, setVideoUrl] = useState(null);
+	const videoRef = useRef(null);
+
+	useEffect(() => {
+		if (videoFile) {
+			const url = URL.createObjectURL(videoFile);
+			setVideoUrl(url);
+			return () => URL.revokeObjectURL(url);
+		}
+	}, [videoFile]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -13,6 +24,8 @@ export default function VidToVid() {
 			alert("Please upload a video file");
 			return;
 		}
+
+		setIsLoading(true);
 
 		const formData = new FormData();
 		formData.append("video", videoFile);
@@ -33,6 +46,8 @@ export default function VidToVid() {
 		} catch (error) {
 			console.error("Error:", error);
 			alert("An error occurred");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -42,17 +57,26 @@ export default function VidToVid() {
 				<div className="py-6 sm:py-8 flex flex-row justify-center">
 					<p className="text-lg sm:text-xl">Video To Video Tool</p>
 				</div>
-				<div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-					<div className="col-span-1 sm:col-span-3 flex flex-col items-center justify-start gap-6 sm:gap-10 bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6">
+				<div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+					<div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-start gap-6 sm:gap-10 bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6 h-[650px] overflow-y-auto">
 						<form className="w-full flex-row" onSubmit={handleSubmit}>
 							<div className="grow mb-4 sm:mb-6 flex flex-col">
 								<label htmlFor="video-upload" className="text-white mb-2">
 									Upload Video
 								</label>
-								<label className="flex h-full items-center justify-center bg-white rounded-lg border-2 border-white cursor-pointer sm:h-20">
-									<span className="text-gray-700">
-										{videoFile ? "Video Selected" : "Upload Video"}
-									</span>
+								<label className="flex h-40 items-center justify-center bg-white rounded-lg border-2 border-white cursor-pointer">
+									{isLoading ? (
+										<span className="text-gray-700">Loading...</span>
+									) : videoUrl ? (
+										<video
+											ref={videoRef}
+											src={videoUrl}
+											className="w-full h-full object-cover"
+											controls
+										/>
+									) : (
+										<span className="text-gray-700">Upload Video</span>
+									)}
 									<input
 										type="file"
 										id="video-upload"
@@ -90,13 +114,14 @@ export default function VidToVid() {
 								<button
 									type="submit"
 									className="px-4 py-2 bg-red-600 text-white rounded-lg"
+									disabled={isLoading}
 								>
-									Submit
+									{isLoading ? "Processing..." : "Submit"}
 								</button>
 							</div>
 						</form>
 					</div>
-					<div className="col-span-1 sm:col-span-2 flex flex-col items-center bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6">
+					<div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6 h-[650px]">
 						<p>Video Placeholder</p>
 						<p>Download Button</p>
 						<p>yo</p>

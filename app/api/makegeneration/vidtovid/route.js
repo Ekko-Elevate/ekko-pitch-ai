@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
+//gets raw from instead of json
 export const config = {
 	api: {
 		bodyParser: false,
@@ -23,12 +24,12 @@ export async function POST(req) {
 	}
 
 	const timestamp = Date.now();
-	const uploadDir = path.join(process.cwd(), "_inputimages");
+	const uploadDir = path.join(process.cwd(), "_inputvideos");
 	const newFilename = `${timestamp}_${video.name}`;
 	const filePath = path.join(uploadDir, newFilename);
 
 	try {
-		// Ensure the upload directory exists
+		// Ensure the upload directory exists MAY NEED TO REMOVE RECUSIVE OBJECT
 		await fs.mkdir(uploadDir, { recursive: true });
 
 		// Write the file
