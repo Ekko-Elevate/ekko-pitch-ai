@@ -21,8 +21,6 @@
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.2.0",
     "axios": "^1.7.3",
-    "dotenv": "^16.4.5",
-    "elevenlabs": "^0.13.0",
     "framer-motion": "^11.3.24",
     "install": "^0.13.0",
     "mongodb": "^6.8.0",
@@ -32,7 +30,7 @@
     "playwright": "^1.46.0",
     "react": "^18",
     "react-dom": "^18",
-    "replicate": "^0.32.0"
+    "replicate": "^0.32.0",
     "react-icons": "^5.2.1",
     "sharp": "^0.33.4",
     "stripe": "^16.7.0"
