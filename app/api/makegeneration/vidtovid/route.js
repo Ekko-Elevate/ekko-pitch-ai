@@ -1,9 +1,10 @@
-import { IncomingForm } from "formidable";
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import storevideo from "../../../_lib/storelocalvideo/storelocalvideo";
+import { musicGenerator } from "../../../_lib/musicgen/musicgen";
+import { voiceGenerator } from "../../../_lib/elevenlabs/elevenlabs";
+import { mergeAudio } from "../../../_lib/audiomanagement/mergeaudio";
+import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
 
-//gets raw from instead of json
 export const config = {
 	api: {
 		bodyParser: false,
@@ -15,7 +16,8 @@ export async function POST(req) {
 	const video = formData.get("video");
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
 	const musicPrompt = formData.get("musicPrompt");
-
+	console.log(voiceOverPrompt);
+	console.log(musicPrompt);
 	if (!video) {
 		return NextResponse.json(
 			{ error: "No video file uploaded" },
@@ -23,23 +25,36 @@ export async function POST(req) {
 		);
 	}
 
-	const timestamp = Date.now();
-	const uploadDir = path.join(process.cwd(), "_inputvideos");
-	const newFilename = `${timestamp}_${video.name}`;
-	const filePath = path.join(uploadDir, newFilename);
+	const timestamp = Date.now(); // Add this line to define timestamp
+	const id = `${timestamp}_${video.name}`;
 
 	try {
-		// Ensure the upload directory exists MAY NEED TO REMOVE RECUSIVE OBJECT
-		await fs.mkdir(uploadDir, { recursive: true });
+		// Run these operations concurrently
+		await Promise.all([
+			storevideo(video, id),
+			musicGenerator(id, musicPrompt),
+			voiceGenerator(id, voiceOverPrompt),
+		]);
 
-		// Write the file
-		const bytes = await video.arrayBuffer();
-		const buffer = Buffer.from(bytes);
-		await fs.writeFile(filePath, buffer);
+		console.log("Video stored, music generated, and voice generated");
 
-		return NextResponse.json({ pass: "imported" }, { status: 200 });
+		await mergeAudio(
+			`./app/api/makegeneration/_voice/voice${id}.mp3`,
+			`./app/api/makegeneration/_music/music${id}.mp3`,
+			`./app/api/makegeneration/_audio/audio${id}.mp3`
+		);
+		console.log("Audio merged");
+
+		await vidAddAudio(
+			`./app/api/makegeneration/_video/video${id}.mp4`,
+			`./app/api/makegeneration/_audio/audio${id}.mp3`,
+			`./app/api/makegeneration/_output/output${id}.mp4`
+		);
+		console.log("Vid Created");
+
+		return NextResponse.json({ success: true, id });
 	} catch (error) {
-		console.error("Error:", error);
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		console.error("Error in processing:", error);
+		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
 	}
 }
