@@ -46,9 +46,9 @@ export async function POST(req) {
 		console.log("Audio merged");
 
 		await vidAddAudio(
-			`./app/api/makegeneration/_video/video${id}.mp4`,
+			`./app/api/makegeneration/_video/${id}`,
 			`./app/api/makegeneration/_audio/audio${id}.mp3`,
-			`./app/api/makegeneration/_output/output${id}.mp4`
+			`./app/api/makegeneration/_output/output${id}`
 		);
 		console.log("Vid Created");
 
