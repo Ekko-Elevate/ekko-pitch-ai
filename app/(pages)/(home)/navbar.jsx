@@ -10,18 +10,35 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 const Navbar = ({children}) => {
 	const [isMobile, setIsMobile] = useState(false);
 	const [isOpen, setIsOpen] = useState(false); //used for HAMBURGER
+	const [navbarHeight, setNavbarHeight] = useState('h-24');
 
-	useEffect(() => { // determines if user is on mobile
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 1025);
-		  };
-		
-		handleResize(); 
-		window.addEventListener('resize', handleResize);
-		
-		return () => window.removeEventListener('resize', handleResize);
-	}, []);
+    useEffect(() => {
+        const handleResize = () => { // determines if mobile
+            setIsMobile(window.innerWidth < 1025);
+        };
 
+        const handleScroll = () => {
+			if(isMobile){
+				setNavbarHeight('h-16')
+			}else{
+				const scrollThreshold = 450; //scroll value
+				if (window.scrollY > scrollThreshold) {
+					setNavbarHeight('h-16');
+				} else {
+					setNavbarHeight('h-24');
+				}
+			}
+		}
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
 	const toggleMenu = () => {
 		setIsOpen(prev => !prev);
@@ -32,8 +49,8 @@ const Navbar = ({children}) => {
 	};
 
 	return (
-	  <nav className="sticky top-0 w-full h-16 shadow-xl bg-[#02254D] z-50">
-		<div className="w-full h-full flex justify-between items-center px-4 sm:px-8 md:px-20">
+	  <nav className={`sticky top-0 w-full ${navbarHeight} bg-[#02254D] z-50 transition-all duration-300`}>
+		<div className="w-full h-full flex justify-between items-center px-4 sm:px-6 md:px-6">
 			<div className="justify-between flex space-x-8 items-center">
 				<Link href='/'>
 					<Image
@@ -63,14 +80,17 @@ const Navbar = ({children}) => {
 				)}
 			</div>
 			{!isMobile && (
-			<div className="justify-between flex space-x-4 items-center">
+			<div className="justify-between flex space-x-6 items-center">
 				<Link href='/sign-up'>
-				<div className="font-bold text-lg bg-[#fff7db] text-black px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
-					Sign in
-				</div>
+					<div className="font-bold text-lg">Sign up</div>
 				</Link>
 				<Link href='/sign-up'>
-					<div className="font-bold text-lg">Sign Up </div>
+					<div className="font-bold text-lg">Log in</div>
+				</Link>
+				<Link href='/sign-up'>
+				<div className="font-bold text-lg bg-[#fff7db] text-black px-3 py-2 rounded-xl hover:bg-gray-400 cursor-pointer">
+					Get started
+				</div>
 				</Link>
 			</div>
 			)}
