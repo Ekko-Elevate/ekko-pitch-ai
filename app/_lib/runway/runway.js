@@ -66,6 +66,7 @@ async function scrapeWebsite(url) {
 	const textElement = page.locator(
 		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
 	);
+
 	await textElement.waitFor();
 	await page.focus(
 		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
@@ -82,13 +83,23 @@ async function scrapeWebsite(url) {
 	await generateButtonElement.waitFor();
 	await page.click(generateButtonSelector);
 
+	const generateButtonSelector =
+		"#data-panel-id-1 > div.Base__Box-sc-1rhgz1n-0.InputsPanel__Container-sc-1nhvx2b-0.InputsPanel___StyledContainer-sc-1nhvx2b-1.bdjOmO > div > div > div > div.Gen2NextUIV1PanelGroup__panelContainer__kVYUm > div.Base__Box-sc-thne2y-0.Footer__Container-sc-1bv423v-0.hLgEP > div > div > button";
+	const generateButtonElement = page.locator(generateButtonSelector);
+	await generateButtonElement.waitFor();
+	await page.click(generateButtonSelector);
+
 	//clicks download button
-    const downloadButtonSelector = "#gen2-next-layout-feed-container > div:nth-child(2) > div > div.Base__Box-sc-1rhgz1n-0.Output___StyledBox-sc-4ct5lz-0.dlfTEu > div.Output___StyledDiv-sc-4ct5lz-1.juAqeX > div > div:nth-child(3) > button:nth-child(1) > svg";
-    const downloadButtonElement = page.locator(downloadButtonSelector);
-    await downloadButtonElement.waitFor({ timeout: 90000 });
-    await page.click(downloadButtonSelector);
+	const downloadButtonSelector =
+		"#gen2-next-layout-feed-container > div:nth-child(2) > div > div.Base__Box-sc-1rhgz1n-0.Output___StyledBox-sc-4ct5lz-0.dlfTEu > div.Output___StyledDiv-sc-4ct5lz-1.juAqeX > div > div:nth-child(3) > button:nth-child(1) > svg";
+	const downloadButtonElement = page.locator(downloadButtonSelector);
+	await downloadButtonElement.waitFor({ timeout: 90000 });
+	await page.click(downloadButtonSelector);
 	const download = await page.waitForEvent("download");
-	const creationPath = path.join('./creations', await download.suggestedFilename());
+	const creationPath = path.join(
+		"./creations",
+		await download.suggestedFilename()
+	);
 	await download.saveAs(creationPath);
 	//pauses the page, this will allows devs to see the page that was rendered if they're NOT in headless mode
 	await page.pause();
