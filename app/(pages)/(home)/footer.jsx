@@ -8,7 +8,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Footer = ({children}) => {
     return(
-        <footer className = "bg-[#02254D] text-white py-4 bottom-0 w-full">
+        <footer className = "bg-[#02254D] text-white py-4 mt-auto w-full">
             <div className="container mx-auto text-center">
                 <p>&copy; 2024 Ekko. All rights reserved.</p>
                 <div className="mt-2">
