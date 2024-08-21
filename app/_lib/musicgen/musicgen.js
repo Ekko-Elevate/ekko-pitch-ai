@@ -1,17 +1,22 @@
-const Replicate = require("replicate");
-const replicate = new Replicate();
-const https = require("https");
-const fs = require("fs");
+import Replicate from "replicate";
+import https from "https";
+import fs from "fs";
 
-const input = {
-	prompt: "overwatch lijiang tower",
-	model_version: "stereo-large",
-	output_format: "mp3",
-	normalization_strategy: "peak",
-	duration: 15,
-};
-
-export async function musicGenerator(id = "1234") {
+const replicate = new Replicate({
+	auth: process.env.REPLICATE_API_TOKEN, // defaults to process.env.REPLICATE_API_TOKEN if not provided
+});
+export async function musicGenerator(
+	id = "1234",
+	musicPrompt = "spooky music",
+	duration = 15
+) {
+	const input = {
+		model_version: "stereo-large",
+		output_format: "mp3",
+		normalization_strategy: "peak",
+		duration: duration,
+		prompt: musicPrompt,
+	};
 	const output = await replicate.run(
 		"meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
 		{ input }
