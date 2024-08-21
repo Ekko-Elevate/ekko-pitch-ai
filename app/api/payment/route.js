@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getSession } from "@auth0/nextjs-auth0";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-
-export const POST = withApiAuthRequired(async function paymentRoute(req) {
-	// Parse the request body
+export async function POST(req) {
 	let body;
 	try {
 		body = await req.json();
@@ -18,9 +16,9 @@ export const POST = withApiAuthRequired(async function paymentRoute(req) {
 		);
 	}
 
-	const { priceId, auth0UserId } = body;
+	const { priceId } = body;
 
-	if (!priceId || !auth0UserId) {
+	if (!priceId) {
 		return NextResponse.json(
 			{ error: "Missing required parameters" },
 			{ status: 400 }
@@ -28,7 +26,15 @@ export const POST = withApiAuthRequired(async function paymentRoute(req) {
 	}
 
 	try {
-		const session = await stripe.checkout.sessions.create({
+		const session = await getSession(req);
+
+		if (!session || !session.user) {
+			return NextResponse.json({ requiresAuth: true });
+		}
+
+		const auth0UserId = session.user.sub;
+
+		const stripeSession = await stripe.checkout.sessions.create({
 			mode: "subscription",
 			payment_method_types: ["card"],
 			line_items: [
@@ -37,9 +43,8 @@ export const POST = withApiAuthRequired(async function paymentRoute(req) {
 					quantity: 1,
 				},
 			],
-			//append this to end /success?session_id={CHECKOUT_SESSION_ID}
+			//add to whatever endpoint user should be sent to after success full, so maybe add /dashboard or something
 			success_url: `${req.headers.get("origin")}`,
-			//append this to the end /canceled
 			cancel_url: `${req.headers.get("origin")}`,
 			subscription_data: {
 				metadata: {
@@ -48,9 +53,9 @@ export const POST = withApiAuthRequired(async function paymentRoute(req) {
 			},
 		});
 
-		return NextResponse.json({ url: session.url });
+		return NextResponse.json({ url: stripeSession.url });
 	} catch (error) {
-		console.error("Stripe error:", error);
+		console.error("Error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
-});
+}

@@ -9,7 +9,7 @@ const afterCallback = (_, session, __) => {
 
 export const GET = handleAuth({
 	login: handleLogin({
-		returnTo: "/dashboard",
+		returnTo: (req) => req.query.returnTo || "/dashboard",
 	}),
 	callback: handleCallback({ afterCallback }),
 });

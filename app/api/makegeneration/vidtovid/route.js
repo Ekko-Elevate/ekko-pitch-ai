@@ -32,8 +32,8 @@ export async function POST(req) {
 		// Run these operations concurrently
 		await Promise.all([
 			storevideo(video, id),
-			musicGenerator(id, musicPrompt),
-			voiceGenerator(id, voiceOverPrompt),
+			// musicGenerator(id, musicPrompt),
+			// voiceGenerator(id, voiceOverPrompt),
 		]);
 
 		console.log("Video stored, music generated, and voice generated");
