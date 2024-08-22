@@ -5,6 +5,7 @@ import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import bodyGIF from './body-armor.gif';
 import beachGIF from './celsius-beach.gif';
 import poolGIF from './celsius-pool.gif';
+import quandale from './maxresdefault.jpg';
 export default function Home() {
 	return (
 		<div>
@@ -41,11 +42,41 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col overflow-hidden px-4 sm:px-8 md:px-16 lg:px-36 h-[130vh] w-full bg-[#fff9EB]">
+			<div className="flex flex-col overflow-hidden px-4 sm:px-8 md:px-16 lg:px-36 h-[170vh] w-full bg-[#fff9EB]">
 				<h1 className="text-[#0F172A] text-3xl sm:text-4xl md:text-5xl font-bold text-wrap w-fit xl:w-1/2 mt-20">High quality AI generated advertisements for your business</h1>
+				<p1>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.</p1>
 				<div className="flex justify-end w-full">
-					<div className="border-2 rounded-3xl w-fit h-fit p-16">
-						
+					<div className="bg-gray-200 border-2 rounded-3xl w-5/12 h-fit py-10 px-10">
+						<h1 className="text-4xl text-[#02254D] font-bold pb-8">Video Creation</h1>
+						<p className="pb-8 leading-loose">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean et tortor at risus viverra adipiscing at in.</p>
+						<div className="pb-8">
+							<Image 
+								src={quandale}
+								width={1280}
+								height={720}
+								className="rounded-3xl justify-center"
+							/>
+						</div>
+						<Link href='about'>
+							<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">Learn more <ArrowForwardOutlinedIcon className="ml-1"/></button>
+						</Link>
+					</div>
+				</div>
+				<div className="flex justify-start w-full relative -mt-96">
+					<div className="bg-gray-200 border-2 rounded-3xl w-5/12 h-fit py-10 px-10">
+						<h1 className="text-4xl text-[#02254D] font-bold pb-8">Voice Creation</h1>
+						<p className="pb-8 leading-loose">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean et tortor at risus viverra adipiscing at in.</p>
+						<div className="pb-8">
+							<Image 
+								src={quandale}
+								width={1280}
+								height={720}
+								className="rounded-3xl justify-center"
+							/>
+						</div>
+						<Link href='about'>
+							<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">Learn more <ArrowForwardOutlinedIcon className="ml-1"/></button>
+						</Link>
 					</div>
 				</div>
 			</div>
