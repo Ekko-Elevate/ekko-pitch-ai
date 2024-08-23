@@ -38,7 +38,7 @@ export async function POST(req) {
 		// Resize the image
 		await resizeImage(filePath);
 
-		// Run these operations concurrently
+		//Run these operations concurrently
 		await Promise.all([
 			musicGenerator(id, musicPrompt),
 			voiceGenerator(id, voiceOverPrompt),
