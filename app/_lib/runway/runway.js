@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 const path = require("path");
 
-async function scrapeWebsite(url) {
+export async function convertToVideo(id, fullFilePath) {
 	//launch chromium, set headless to true if you dont wanna see the browser pop up, else set false
 	//FYI think of head as a browser popup, the double negative is a little confusing
 	const browser = await playwright.chromium.launch({ headless: false });
@@ -10,10 +10,10 @@ async function scrapeWebsite(url) {
 	//think of page as opening a new tab
 	const page = await context.newPage();
 
-	await page.goto(url);
+	await page.goto("https://app.runwayml.com/");
 
 	// Fill in the login form with user and password
-	await page.fill('input[name="usernameOrEmail"]', "blawgml");
+	await page.fill('input[name="usernameOrEmail"]', "OAaronmll");
 	await page.fill('input[name="password"]', "Password123123!");
 
 	// Click the submit button and wait for navigation
@@ -52,7 +52,7 @@ async function scrapeWebsite(url) {
 	await page.waitForSelector(fileInputSelector, { state: "attached" });
 
 	// Set the file to be uploaded
-	const filePath = path.join(__dirname, "meow.jpg");
+	const filePath = fullFilePath;
 
 	await page.setInputFiles(fileInputSelector, filePath);
 
@@ -72,16 +72,10 @@ async function scrapeWebsite(url) {
 		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
 	);
 	await page.keyboard.type(
-		"The camera pans over as the bird flaps its wings, 60fps."
+		"50mm lens, close up focus shot, diffused lighting, dynamic motion: The body armor bottle sits on the ground next to the pool as lots of pool water splashes onto the body armor bottle while there are blurred people in the far distant background."
 	);
 
 	//clicks the upload button
-
-	const generateButtonSelector =
-		"#data-panel-id-1 > div.Base__Box-sc-1rhgz1n-0.InputsPanel__Container-sc-1nhvx2b-0.InputsPanel___StyledContainer-sc-1nhvx2b-1.bdjOmO > div > div > div > div.Gen2NextUIV1PanelGroup__panelContainer__kVYUm > div.Base__Box-sc-thne2y-0.Footer__Container-sc-1bv423v-0.hLgEP > div > div > button";
-	const generateButtonElement = page.locator(generateButtonSelector);
-	await generateButtonElement.waitFor();
-	await page.click(generateButtonSelector);
 
 	const generateButtonSelector =
 		"#data-panel-id-1 > div.Base__Box-sc-1rhgz1n-0.InputsPanel__Container-sc-1nhvx2b-0.InputsPanel___StyledContainer-sc-1nhvx2b-1.bdjOmO > div > div > div > div.Gen2NextUIV1PanelGroup__panelContainer__kVYUm > div.Base__Box-sc-thne2y-0.Footer__Container-sc-1bv423v-0.hLgEP > div > div > button";
@@ -97,17 +91,17 @@ async function scrapeWebsite(url) {
 	await page.click(downloadButtonSelector);
 	const download = await page.waitForEvent("download");
 	const creationPath = path.join(
-		"./creations",
-		await download.suggestedFilename()
+		"./app/api/makegeneration/_video",
+		`${id}.mp4`
 	);
 	await download.saveAs(creationPath);
 	//pauses the page, this will allows devs to see the page that was rendered if they're NOT in headless mode
-	await page.pause();
+	// await page.pause();
 
 	await browser.close();
 }
 
-(async () => {
-	await scrapeWebsite("https://app.runwayml.com/");
-})();
+// (async () => {
+// 	await scrapeWebsite("https://app.runwayml.com/");
+// })();
 // #data-panel-id-left-panel-panel-top > div > div.PreviewPanel___StyledDiv-sc-11ybtyx-6.bjtMZV > div > div

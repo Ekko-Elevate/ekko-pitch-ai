@@ -23,7 +23,7 @@ export async function musicGenerator(
 	);
 	console.log(output);
 
-	await downloadFile(output, `app/api/makegeneration/_music/music${id}.mp3`);
+	await downloadFile(output, `app/api/makegeneration/_music/${id}.mp3`);
 	console.log("Download Completed");
 }
 

@@ -32,7 +32,7 @@ export async function voiceGenerator(
 
 	//name audio file, write stream emites finish or error
 	const writeStream = fs.createWriteStream(
-		`app/api/makegeneration/_voice/voice${id}.mp3`
+		`app/api/makegeneration/_voice/${id}.mp3`
 	);
 
 	//save audio
