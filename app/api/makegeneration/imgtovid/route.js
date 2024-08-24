@@ -19,6 +19,9 @@ export async function POST(req) {
 	const image = formData.get("image");
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
 	const musicPrompt = formData.get("musicPrompt");
+	const scenePrompt = formData.get("scenePrompt"); // New field
+	console.log(scenePrompt);
+	console.log(musicPrompt);
 
 	if (!image) {
 		return NextResponse.json(
@@ -31,18 +34,18 @@ export async function POST(req) {
 	const id = `${uuidv4()}_${timestamp}`;
 
 	try {
-		// Store the image
+		//Store the image
 		const originalFilename = image.name;
 		const filePath = await storeImage(id, image, originalFilename);
 
 		// Resize the image
 		await resizeImage(filePath);
-
-		//Run these operations concurrently
+		console.log(filePath);
+		// Run these operations concurrently
 		await Promise.all([
 			musicGenerator(id, musicPrompt),
 			voiceGenerator(id, voiceOverPrompt),
-			convertToVideo(id, filePath),
+			convertToVideo(id, filePath, scenePrompt), // Pass scenePrompt here
 		]);
 
 		console.log("Video created, music generated, and voice generated");
@@ -52,7 +55,9 @@ export async function POST(req) {
 			`./app/api/makegeneration/_music/${id}.mp3`,
 			`./app/api/makegeneration/_audio/${id}.mp3`
 		);
+
 		console.log("Audio merged");
+
 		await vidAddAudio(
 			`./app/api/makegeneration/_video/${id}.mp4`,
 			`./app/api/makegeneration/_audio/${id}.mp3`,
@@ -60,7 +65,7 @@ export async function POST(req) {
 		);
 		console.log("Vid Created");
 
-		return NextResponse.json({ success: true, id });
+		return NextResponse.json({ success: true, id }, { status: 200 });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });

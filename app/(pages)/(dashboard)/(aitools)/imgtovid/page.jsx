@@ -5,6 +5,8 @@ export default function ImgToVid() {
 	const [imageFile, setImageFile] = useState(null);
 	const [voiceOverPrompt, setVoiceOverPrompt] = useState("");
 	const [musicPrompt, setMusicPrompt] = useState("");
+	const [scenePrompt, setScenePrompt] = useState("");
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [imageUrl, setImageUrl] = useState(null);
 	const [videoId, setVideoId] = useState(null);
@@ -32,6 +34,7 @@ export default function ImgToVid() {
 			formData.append("image", imageFile);
 			formData.append("voiceOverPrompt", voiceOverPrompt);
 			formData.append("musicPrompt", musicPrompt);
+			formData.append("scenePrompt", scenePrompt);
 
 			try {
 				const response = await fetch("/api/makegeneration/imgtovid", {
@@ -53,7 +56,7 @@ export default function ImgToVid() {
 				setIsLoading(false);
 			}
 		},
-		[imageFile, voiceOverPrompt, musicPrompt]
+		[imageFile, voiceOverPrompt, musicPrompt, scenePrompt]
 	);
 
 	return (
@@ -111,6 +114,18 @@ export default function ImgToVid() {
 								placeholder="Enter music prompt"
 								value={musicPrompt}
 								onChange={(e) => setMusicPrompt(e.target.value)}
+							/>
+						</div>
+						<div className="mb-4 sm:mb-6 flex flex-col">
+							<label htmlFor="scene-prompt" className="text-white mb-2">
+								Input Scene Prompt
+							</label>
+							<textarea
+								id="scene-prompt"
+								className="rounded-lg border-2 border-white bg-white text-black p-2 resize-none h-28"
+								placeholder="Enter scene prompt"
+								value={scenePrompt}
+								onChange={(e) => setScenePrompt(e.target.value)}
 							/>
 						</div>
 						<div className="flex justify-center">

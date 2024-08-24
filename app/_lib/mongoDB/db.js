@@ -6,11 +6,13 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 const uri = process.env.MONGODB_URI;
 
 export async function connectToDatabase() {
-  try {
-    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log('Connected to MongoDB with Mongoose');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
+	try {
+		await mongoose.connect(uri, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
+		console.log("Connected to MongoDB with Mongoose");
+	} catch (error) {
+		console.error("Error connecting to MongoDB:", error);
+	}
 }
-

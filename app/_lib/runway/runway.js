@@ -1,7 +1,7 @@
 const playwright = require("playwright");
 const path = require("path");
 
-export async function convertToVideo(id, fullFilePath) {
+export async function convertToVideo(id, filePath, scenePrompt) {
 	//launch chromium, set headless to true if you dont wanna see the browser pop up, else set false
 	//FYI think of head as a browser popup, the double negative is a little confusing
 	const browser = await playwright.chromium.launch({ headless: false });
@@ -13,7 +13,7 @@ export async function convertToVideo(id, fullFilePath) {
 	await page.goto("https://app.runwayml.com/");
 
 	// Fill in the login form with user and password
-	await page.fill('input[name="usernameOrEmail"]', "OAaronmll");
+	await page.fill('input[name="usernameOrEmail"]', "omichaelmlll");
 	await page.fill('input[name="password"]', "Password123123!");
 
 	// Click the submit button and wait for navigation
@@ -52,7 +52,7 @@ export async function convertToVideo(id, fullFilePath) {
 	await page.waitForSelector(fileInputSelector, { state: "attached" });
 
 	// Set the file to be uploaded
-	const filePath = fullFilePath;
+	// const filePath = fullFilePath;
 
 	await page.setInputFiles(fileInputSelector, filePath);
 
@@ -72,8 +72,10 @@ export async function convertToVideo(id, fullFilePath) {
 		"#data-panel-id-left-panel-panel-bottom > div > div > div > div > div.TextInput-module__textbox__F4Oub"
 	);
 	await page.keyboard.type(
-		"50mm lens, close up focus shot, diffused lighting, dynamic motion: The body armor bottle sits on the ground next to the pool as lots of pool water splashes onto the body armor bottle while there are blurred people in the far distant background."
+		"50mm lens, close up focus shot, diffused lighting, dynamic motion:" +
+			scenePrompt
 	);
+	// The body armor bottle sits on the ground next to the pool as lots of pool water splashes onto the body armor bottle while there are blurred people in the far distant background.
 
 	//clicks the upload button
 
