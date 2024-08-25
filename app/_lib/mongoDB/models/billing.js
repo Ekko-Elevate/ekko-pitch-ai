@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const billingSchema = new mongoose.Schema(
 	{
 		UID: String,
-		customerID: String,
+		customerID: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		subscriptionID: String,
 	},
 	{ collection: "billings" }

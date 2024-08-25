@@ -1,37 +1,38 @@
-import { connectToDatabase } from "../../_lib/mongoDB/db.js";
-import { User } from "../../_lib/mongoDB/models/user.js";
-import { Creation } from "../../_lib/mongoDB/models/creations.js"; // Assuming you have this model
+import { connectToDatabase } from "@/app/_lib/mongoDB/connection/db.js";
+import { User } from "@/app/_lib/mongoDB/models/user.js";
+import { Creation } from "@/app/_lib/mongoDB/models/creations.js";
 
 export async function addCreation(UID, title, S3ID) {
 	await connectToDatabase();
+	//create mongo session to add atomic behavior, if one of 2 transactions fail the whole thing fails
+	const session = await User.startSession();
+
 	try {
-		// Update the user document
-		const user = await User.findOneAndUpdate(
-			{ UID: UID },
-			{ $push: { CID: S3ID } },
-			{ new: true }
-		);
-
-		if (!user) {
-			console.error("User not found");
-			return null;
-		}
-
-		// Create a new creation document
-		const newCreation = new Creation({
-			UID: UID,
-			S3ID: S3ID,
-			Title: title,
+		// Start the transaction
+		await session.withTransaction(async () => {
+			// Update the user's S3IDs array and create the new creation
+			const [user, creation] = await Promise.all([
+				User.findOneAndUpdate(
+					{ UID },
+					{ $push: { S3IDs: S3ID } },
+					{ new: true, session }
+				),
+				Creation.create(
+					{
+						UID,
+						S3ID,
+						title,
+						createdAt: new Date(), // Explicitly set the creation date
+					},
+					{ session }
+				),
+			]);
 		});
-
-		const savedCreation = await newCreation.save();
-
-		console.log("User updated:", user);
-		console.log("New creation added:", savedCreation);
-
-		return { user, creation: savedCreation };
 	} catch (error) {
-		console.error("Error updating user or adding creation:", error);
+		console.error("Error in addCreation:", error);
 		throw error;
+	} finally {
+		// Always end the session
+		session.endSession();
 	}
 }
