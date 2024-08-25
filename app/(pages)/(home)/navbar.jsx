@@ -21,7 +21,7 @@ const Navbar = ({children}) => {
 			if(isMobile){
 				setNavbarHeight('h-16')
 			}else{
-				const scrollThreshold = 450; //scroll value
+				const scrollThreshold = 440; //scroll value
 				if (window.scrollY > scrollThreshold) {
 					setNavbarHeight('h-16');
 				} else {
