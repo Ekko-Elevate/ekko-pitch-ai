@@ -6,6 +6,8 @@ import { mergeAudio } from "@/app/_lib/audiomanagement/mergeaudio";
 import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
 import { convertToVideo } from "@/app/_lib/runway/runway";
 import { v4 as uuidv4 } from "uuid";
+import { storeS3video } from "@/app/_lib/S3/storeS3video";
+import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl";
 import resizeImage from "@/app/_lib/imgresizer/imgresizer";
 
 export const config = {
@@ -64,8 +66,11 @@ export async function POST(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
+		await storeS3video(id);
+		//create presigned url
+		let url = await createpresignedurl(id);
 
-		return NextResponse.json({ success: true, id }, { status: 200 });
+		return NextResponse.json({ success: true, id, url }, { status: 200 });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
