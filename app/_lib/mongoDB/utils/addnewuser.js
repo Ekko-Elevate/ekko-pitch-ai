@@ -21,7 +21,6 @@ export async function addNewUser(UID, userEmail) {
 			tokenAmount: 40,
 			S3IDs: [],
 		});
-
 		return;
 	} catch (error) {
 		console.error("Error in addUser:", error);

@@ -13,5 +13,7 @@ const creationSchema = new mongoose.Schema(
 	},
 	{ collection: "creations" }
 );
+// export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-export const Creation = mongoose.model("Creation", creationSchema);
+export const Creation =
+	mongoose.models.Creation || mongoose.model("Creation", creationSchema);
