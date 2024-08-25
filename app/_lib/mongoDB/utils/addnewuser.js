@@ -10,7 +10,7 @@ export async function addNewUser(UID, userEmail) {
 		const existingUser = await User.findOne({ UID });
 
 		if (existingUser) {
-			return { message: "User already exists", user: existingUser };
+			return;
 		}
 
 		// Create a new user if they don't exist
@@ -22,7 +22,7 @@ export async function addNewUser(UID, userEmail) {
 			S3IDs: [],
 		});
 
-		return { user };
+		return;
 	} catch (error) {
 		console.error("Error in addUser:", error);
 		throw error;
