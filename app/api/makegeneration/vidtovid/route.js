@@ -1,0 +1,62 @@
+import { NextResponse } from "next/server";
+import storevideo from "../../../_lib/storeinputvideo/storeinputvideo";
+import { musicGenerator } from "../../../_lib/musicgen/musicgen";
+import { voiceGenerator } from "../../../_lib/elevenlabs/elevenlabs";
+import { mergeAudio } from "../../../_lib/audiomanagement/mergeaudio";
+import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
+import { v4 as uuidv4 } from "uuid";
+//IF THIS CODE DOESNT WORK MAKE SURE MUSIC GEN AND VOICE GEN BELOW ISNT COMMENTED OUT
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
+
+export async function POST(req) {
+	const formData = await req.formData();
+	const video = formData.get("video");
+	const voiceOverPrompt = formData.get("voiceOverPrompt");
+	const musicPrompt = formData.get("musicPrompt");
+	console.log(voiceOverPrompt);
+	console.log(musicPrompt);
+	if (!video) {
+		return NextResponse.json(
+			{ error: "No video file uploaded" },
+			{ status: 400 }
+		);
+	}
+
+	//uuidv4 is super random number its very secure, nearly impossible to guess
+	const timestamp = Date.now();
+	const id = `${uuidv4()}_${timestamp}`;
+
+	try {
+		// Run these operations concurrently
+		await Promise.all([
+			storevideo(id, video),
+			musicGenerator(id, musicPrompt),
+			voiceGenerator(id, voiceOverPrompt),
+		]);
+
+		console.log("Video stored, music generated, and voice generated");
+
+		await mergeAudio(
+			`./app/api/makegeneration/_voice/${id}.mp3`,
+			`./app/api/makegeneration/_music/${id}.mp3`,
+			`./app/api/makegeneration/_audio/${id}.mp3`
+		);
+		console.log("Audio merged");
+
+		await vidAddAudio(
+			`./app/api/makegeneration/_video/${id}.mp4`,
+			`./app/api/makegeneration/_audio/${id}.mp3`,
+			`./app/api/makegeneration/_output/${id}.mp4`
+		);
+		console.log("Vid Created");
+
+		return NextResponse.json({ success: true, id });
+	} catch (error) {
+		console.error("Error in processing:", error);
+		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
+	}
+}

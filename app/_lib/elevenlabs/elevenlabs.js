@@ -6,7 +6,10 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 const client = new ElevenLabsClient({ apiKey: process.env.ELEVEN_API_TOKEN });
 
-export const voiceGenerator = async () => {
+export async function voiceGenerator(
+	id = "1234",
+	voiceOverPrompt = "Hellshot is near"
+) {
 	const audioStream = await client.textToSpeech.convert(
 		"bIHbv24MWmeRgasZH58o",
 		{
@@ -16,7 +19,7 @@ export const voiceGenerator = async () => {
 			optimize_streaming_latency: ElevenLabs.OptimizeStreamingLatency.Zero,
 			output_format: ElevenLabs.OutputFormat.Mp32205032,
 			language_code: "es",
-			text: "Aaron ",
+			text: voiceOverPrompt,
 			voice_settings: {
 				model_id: "eleven_turbo_v2_5",
 				stability: 0.5,
@@ -28,7 +31,9 @@ export const voiceGenerator = async () => {
 	);
 
 	//name audio file, write stream emites finish or error
-	const writeStream = fs.createWriteStream("voice.mp3");
+	const writeStream = fs.createWriteStream(
+		`app/api/makegeneration/_voice/${id}.mp3`
+	);
 
 	//save audio
 	audioStream.pipe(writeStream);
@@ -40,4 +45,4 @@ export const voiceGenerator = async () => {
 	writeStream.on("error", (err) => {
 		console.error("Error, not saved", err);
 	});
-};
+}
