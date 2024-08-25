@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server.js";
-import { handleLogin } from "@auth0/nextjs-auth0";
+import { NextResponse } from "next/server";
+import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl.js";
 
-import resizeImage from "../../_lib/imgresizer/imgresizer.js";
-
-export async function GET(req, res) {
-	try {
-		await console.log("yo");
-		await handleLogin(req, res);
-	} catch (error) {
-		res.status(error.status || 400).end(error.message);
-	}
-	// resizeImage('./app/_lib/imgresizer/bat.jpg', './app/_lib/imgresizer/meow.jpg');
-	return NextResponse.json("success");
+export async function GET(req) {
+  let url;
+  try {
+    url = await createpresignedurl("ad_1");
+    console.log("success");
+    return NextResponse.json({ url: url });
+  } catch (error) {
+    console.error("Error creating presigned URL:", error);
+    return NextResponse.json({ error: "Failed to create presigned URL" }, { status: 500 });
+  }
 }
