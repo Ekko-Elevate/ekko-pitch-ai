@@ -7,6 +7,9 @@ import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
 import { storeS3video } from "@/app/_lib/S3/storeS3video";
 import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl";
 import { v4 as uuidv4 } from "uuid";
+import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
+
 //IF THIS CODE DOESNT WORK MAKE SURE MUSIC GEN AND VOICE GEN BELOW ISNT COMMENTED OUT
 export const config = {
 	api: {
@@ -15,6 +18,9 @@ export const config = {
 };
 
 export async function POST(req) {
+	const session = await getSession(req);
+	const user = session.user;
+	console.log(user);
 	const formData = await req.formData();
 	const video = formData.get("video");
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
@@ -55,9 +61,9 @@ export async function POST(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
-		//store S3 video
+    
 		await storeS3video(id);
-		//create presigned url
+    await addCreation(user.sub, "testtitle", `${id}.mp4`);
 		let url = await createpresignedurl(id);
 
 		return NextResponse.json({ success: true, id, url });
