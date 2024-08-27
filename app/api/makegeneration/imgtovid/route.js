@@ -9,14 +9,19 @@ import { v4 as uuidv4 } from "uuid";
 import { storeS3video } from "@/app/_lib/S3/storeS3video";
 import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl";
 import resizeImage from "@/app/_lib/imgresizer/imgresizer";
+import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
 export const config = {
 	api: {
 		bodyParser: false,
 	},
 };
-
-export async function POST(req) {
+//with api auth required users MUST be signed in and api can only really be made from frontend.
+export const POST = withApiAuthRequired(async function imgToVid(req) {
+	const session = await getSession(req);
+	const user = session.user;
+	console.log(user);
 	const formData = await req.formData();
 	const image = formData.get("image");
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
@@ -66,7 +71,12 @@ export async function POST(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
+		//s3 functionality here
+
+		// await addCreation(user.sub, "test title", `${id}.mp4`);
 		await storeS3video(id);
+    await addCreation(user.sub, "test title", `${id}.mp4`);
+
 		//create presigned url
 		let url = await createpresignedurl(id);
 
@@ -75,4 +85,4 @@ export async function POST(req) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
 	}
-}
+});

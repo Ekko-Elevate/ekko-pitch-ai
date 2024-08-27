@@ -5,9 +5,9 @@ export async function editTokens(UID, tokenAmount) {
 	await connectToDatabase();
 	try {
 		let totalTokens;
-		const user = (await User.findOne({ UID: UID })).isSelected("token_amount");
+		const user = (await User.findOne({ UID: UID })).isSelected("tokenAmount");
 		if (user) {
-			totalTokens = user.token_amount + tokenAmount;
+			totalTokens = user.tokenAmount + tokenAmount;
 		} else {
 			console.log(`No user found with UID: ${UID}`);
 			return null;
