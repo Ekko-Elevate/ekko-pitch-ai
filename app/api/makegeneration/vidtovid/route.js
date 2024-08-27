@@ -17,7 +17,7 @@ export const config = {
 	},
 };
 
-export async function POST(req) {
+export const POST = withApiAuthRequired(async function vidToVid(req) {
 	const session = await getSession(req);
 	const user = session.user;
 	console.log(user);
@@ -71,4 +71,4 @@ export async function POST(req) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
 	}
-}
+})
