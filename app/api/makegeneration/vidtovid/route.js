@@ -17,7 +17,7 @@ export const config = {
 	},
 };
 
-export async function POST(req) {
+export const POST = withApiAuthRequired(async function vidToVid(req) {
 	const session = await getSession(req);
 	const user = session.user;
 	console.log(user);
@@ -61,9 +61,9 @@ export async function POST(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
-    
+
 		await storeS3video(id);
-    await addCreation(user.sub, "testtitle", `${id}.mp4`);
+		await addCreation(user.sub, "testtitle", `${id}.mp4`);
 		let url = await createpresignedurl(id);
 
 		return NextResponse.json({ success: true, id, url });

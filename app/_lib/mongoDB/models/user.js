@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
 	{
+		//uid and email given by auth0 as "sub" and "email" respectively
 		UID: {
 			type: String,
 			required: true,

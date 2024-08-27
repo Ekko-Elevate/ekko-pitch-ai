@@ -1,6 +1,6 @@
 // app/pricing/page.js
 import { getSession } from "@auth0/nextjs-auth0";
-import SubscribeButton from "./SubscribeButton";
+// import SubscribeButton from "./SubscribeButton";
 
 const plans = [
 	{
@@ -75,7 +75,7 @@ export default async function Pricing() {
 									))}
 								</ul>
 								<div className="space-y-2">
-									<SubscribeButton priceId={"price_1PmytHHkDOTpB3SeSeFXIXVo"} />
+									{/* <SubscribeButton priceId={"price_1PmytHHkDOTpB3SeSeFXIXVo"} /> */}
 								</div>
 							</div>
 						</div>

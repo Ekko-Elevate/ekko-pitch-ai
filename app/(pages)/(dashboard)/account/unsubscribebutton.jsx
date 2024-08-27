@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+const { user } = useUser();
 
 export default function UnSubscribeButton() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const router = useRouter();
+	const { user } = useUser();
 
 	const handleCancelSubscription = async () => {
 		if (
@@ -20,13 +22,13 @@ export default function UnSubscribeButton() {
 		setError(null);
 
 		try {
-			const response = await fetch("/api/webhook/stripe", {
+			const response = await fetch("/api/unsubscribe", {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				// You might need to send some data, like a user ID or subscription ID
-				body: JSON.stringify({ stripeCustomerId: "cus_QefnqEzxgMptxJ" }),
+				body: JSON.stringify({ UID: user.sub }),
 			});
 
 			if (!response.ok) {
