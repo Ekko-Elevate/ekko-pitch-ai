@@ -24,14 +24,26 @@ export async function vidAddAudio(
 					filter: "adelay",
 					options: audiodelay,
 					inputs: "1:a",
-					outputs: "audio_filter",
+					outputs: "delayed_audio",
+				},
+				{
+					filter: "asetpts",
+					options: "PTS-STARTPTS",
+					inputs: "delayed_audio",
+					outputs: "reset_audio",
+				},
+				{
+					filter: "amix",
+					options: {
+						inputs: 1,
+						duration: "first",
+					},
+					inputs: ["reset_audio"],
+					outputs: "mixed_audio",
 				},
 			])
-
-			.outputOptions(["-map 0:v", "-map [audio_filter]"])
+			.outputOptions(["-map 0:v", "-map [mixed_audio]", "-shortest"])
 			.output(outputpath)
-			.output(outputpath)
-
 			.on("error", (err) => {
 				console.log("Video/Audio Merge Failed");
 				reject(err);
