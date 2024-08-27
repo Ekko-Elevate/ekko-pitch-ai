@@ -3,7 +3,7 @@ import { User } from "@/app/_lib/mongoDB/models/user.js";
 import { Creation } from "@/app/_lib/mongoDB/models/creations.js";
 
 export async function addCreation(UID, title, S3ID) {
-	console.log(UID, title, S3ID);
+	//console.log(UID, title, S3ID);
 	await connectToDatabase();
 	const session = await User.startSession();
 
@@ -19,7 +19,7 @@ export async function addCreation(UID, title, S3ID) {
 			if (!user) {
 				throw new Error("User not found");
 			}
-
+			
 			// Create the new creation
 			const creation = await Creation.create(
 				[
