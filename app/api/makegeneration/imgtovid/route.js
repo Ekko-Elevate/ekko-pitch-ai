@@ -17,6 +17,7 @@ export const config = {
 		bodyParser: false,
 	},
 };
+
 //with api auth required users MUST be signed in and api can only really be made from frontend.
 export const POST = withApiAuthRequired(async function imgToVid(req) {
 	const session = await getSession(req);
@@ -27,6 +28,8 @@ export const POST = withApiAuthRequired(async function imgToVid(req) {
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
 	const musicPrompt = formData.get("musicPrompt");
 	const scenePrompt = formData.get("scenePrompt"); // New field
+	const title = formData.get("title"); // New field
+
 	console.log(scenePrompt);
 	console.log(musicPrompt);
 
@@ -74,13 +77,14 @@ export const POST = withApiAuthRequired(async function imgToVid(req) {
 		//s3 functionality here
 
 		// await addCreation(user.sub, "test title", `${id}.mp4`);
-		await storeS3video(id);
-		await addCreation(user.sub, "test title", `${id}.mp4`);
+		await storeS3video(`${id}.mp4`, "video/mp4");
+
+		await addCreation(user.sub, title, `${id}.mp4`);
 
 		//create presigned url
-		let url = await createpresignedurl(id);
-
-		return NextResponse.json({ success: true, id, url }, { status: 200 });
+		let url = await createpresignedurl(`${id}.mp4`);
+		console.log(url);
+		return NextResponse.json({ success: true, url }, { status: 200 });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });

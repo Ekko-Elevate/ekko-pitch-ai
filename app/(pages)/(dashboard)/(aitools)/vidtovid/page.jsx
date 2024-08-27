@@ -5,55 +5,54 @@ export default function VidToVid() {
 	const [videoFile, setVideoFile] = useState(null);
 	const [voiceOverPrompt, setVoiceOverPrompt] = useState("");
 	const [musicPrompt, setMusicPrompt] = useState("");
+	const [title, setTitle] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [videoUrl, setVideoUrl] = useState(null);
 
-	const handleFileChange = useCallback((e) => {
+	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
 			setVideoFile(file);
 			setVideoUrl(URL.createObjectURL(file));
 		}
-	}, []);
+	};
 
-	const handleSubmit = useCallback(
-		async (e) => {
-			e.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-			if (!videoFile) {
-				alert("Please upload a video file");
-				return;
+		if (!videoFile) {
+			alert("Please upload a video file");
+			return;
+		}
+
+		setIsLoading(true);
+
+		const formData = new FormData();
+		formData.append("video", videoFile);
+		formData.append("voiceOverPrompt", voiceOverPrompt);
+		formData.append("musicPrompt", musicPrompt);
+		formData.append("title", title);
+
+		try {
+			const response = await fetch("/api/makegeneration/vidtovid", {
+				method: "POST",
+				body: formData,
+			});
+
+			if (response.ok) {
+				const jsonResponse = await response.json();
+				console.log("Response JSON:", jsonResponse);
+				alert("Upload successful");
+			} else {
+				alert("Upload failed");
 			}
-
-			setIsLoading(true);
-
-			const formData = new FormData();
-			formData.append("video", videoFile);
-			formData.append("voiceOverPrompt", voiceOverPrompt);
-			formData.append("musicPrompt", musicPrompt);
-
-			try {
-				const response = await fetch("/api/makegeneration/vidtovid", {
-					method: "POST",
-					body: formData,
-				});
-
-				if (response.ok) {
-					const jsonResponse = await response.json();
-					console.log("Response JSON:", jsonResponse);
-					alert("Upload successful");
-				} else {
-					alert("Upload failed");
-				}
-			} catch (error) {
-				console.error("Error:", error);
-				alert("An error occurred");
-			} finally {
-				setIsLoading(false);
-			}
-		},
-		[videoFile, voiceOverPrompt, musicPrompt]
-	);
+		} catch (error) {
+			console.error("Error:", error);
+			alert("An error occurred");
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<div className="flex flex-col w-full h-full px-4 sm:px-6">
@@ -87,6 +86,18 @@ export default function VidToVid() {
 									onChange={handleFileChange}
 								/>
 							</label>
+						</div>
+						<div className="mb-4 sm:mb-6 flex flex-col">
+							<label htmlFor="title" className="text-white mb-2">
+								Title
+							</label>
+							<textarea
+								id="title"
+								className="rounded-lg border-2 border-white bg-white text-black p-2 resize-none h-20"
+								placeholder="Enter title"
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+							/>
 						</div>
 						<div className="mb-4 sm:mb-6 flex flex-col">
 							<label htmlFor="voice-over-prompt" className="text-white mb-2">
