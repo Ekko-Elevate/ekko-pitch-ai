@@ -20,56 +20,56 @@ export const POST = withApiAuthRequired(async function imgToVid(req) {
 	const session = await getSession(req);
 	const user = session.user;
 	console.log(user);
-	// const formData = await req.formData();
-	// const image = formData.get("image");
-	// const voiceOverPrompt = formData.get("voiceOverPrompt");
-	// const musicPrompt = formData.get("musicPrompt");
-	// const scenePrompt = formData.get("scenePrompt"); // New field
-	// console.log(scenePrompt);
-	// console.log(musicPrompt);
+	const formData = await req.formData();
+	const image = formData.get("image");
+	const voiceOverPrompt = formData.get("voiceOverPrompt");
+	const musicPrompt = formData.get("musicPrompt");
+	const scenePrompt = formData.get("scenePrompt"); // New field
+	console.log(scenePrompt);
+	console.log(musicPrompt);
 
-	// if (!image) {
-	// 	return NextResponse.json(
-	// 		{ error: "No image file uploaded" },
-	// 		{ status: 400 }
-	// 	);
-	// }
+	if (!image) {
+		return NextResponse.json(
+			{ error: "No image file uploaded" },
+			{ status: 400 }
+		);
+	}
 
 	const timestamp = Date.now();
 	const id = `${uuidv4()}_${timestamp}`;
 
 	try {
-		// //Store the image
-		// const originalFilename = image.name;
-		// const filePath = await storeImage(id, image, originalFilename);
+		//Store the image
+		const originalFilename = image.name;
+		const filePath = await storeImage(id, image, originalFilename);
 
-		// // Resize the image
-		// await resizeImage(filePath);
-		// console.log(filePath);
-		// // Run these operations concurrently
-		// await Promise.all([
-		// 	musicGenerator(id, musicPrompt),
-		// 	voiceGenerator(id, voiceOverPrompt),
-		// 	convertToVideo(id, filePath, scenePrompt), // Pass scenePrompt here
-		// ]);
+		// Resize the image
+		await resizeImage(filePath);
+		console.log(filePath);
+		// Run these operations concurrently
+		await Promise.all([
+			musicGenerator(id, musicPrompt),
+			voiceGenerator(id, voiceOverPrompt),
+			convertToVideo(id, filePath, scenePrompt), // Pass scenePrompt here
+		]);
 
-		// console.log("Video created, music generated, and voice generated");
+		console.log("Video created, music generated, and voice generated");
 
-		// await mergeAudio(
-		// 	`./app/api/makegeneration/_voice/${id}.mp3`,
-		// 	`./app/api/makegeneration/_music/${id}.mp3`,
-		// 	`./app/api/makegeneration/_audio/${id}.mp3`
-		// );
+		await mergeAudio(
+			`./app/api/makegeneration/_voice/${id}.mp3`,
+			`./app/api/makegeneration/_music/${id}.mp3`,
+			`./app/api/makegeneration/_audio/${id}.mp3`
+		);
 
-		// console.log("Audio merged");
+		console.log("Audio merged");
 
-		// await vidAddAudio(
-		// 	`./app/api/makegeneration/_video/${id}.mp4`,
-		// 	`./app/api/makegeneration/_audio/${id}.mp3`,
-		// 	`./app/api/makegeneration/_output/${id}.mp4`
-		// );
-		// console.log("Vid Created");
-		// //s3 functionality here
+		await vidAddAudio(
+			`./app/api/makegeneration/_video/${id}.mp4`,
+			`./app/api/makegeneration/_audio/${id}.mp3`,
+			`./app/api/makegeneration/_output/${id}.mp4`
+		);
+		console.log("Vid Created");
+		//s3 functionality here
 		await addCreation(user.sub, "test title", `${id}.mp4`);
 
 		// await addCreation(user.sub, "test title", `${id}.mp4`);
