@@ -16,11 +16,12 @@ export default function DashboardLayout({ children }) {
 		<div className="flex h-screen w-screen overflow-hidden">
 			<Nav isMobile={isMobile} />
 			<main
-				className={`flex-grow overflow-y-auto p-4 z-0 ${
+				className={`bg-white flex-grow overflow-y-auto p-4 z-0 ${
 					isMobile ? "" : "ml-20"
 				}`}
 			>
-				{children}
+			{children}
+			
 			</main>
 		</div>
 	);

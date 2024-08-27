@@ -29,6 +29,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^11.3.24",
     "install": "^0.13.0",
+    "mongo": "^0.1.0",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.2",
     "next": "14.2.5",
@@ -50,6 +51,6 @@
     "eslint-config-next": "14.2.5",
     "null-loader": "^4.0.1",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.9"
+    "tailwindcss": "^3.4.10"
   }
 }
