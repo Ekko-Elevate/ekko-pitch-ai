@@ -1,5 +1,5 @@
 import { connectToDatabase } from "../../_lib/mongoDB/db.js";
-import { User } from "../../_lib/mongoDB/user.js";
+import { User } from "../../_lib/mongoDB/models/user.js";
 
 export async function editTokens(UID, tokenAmount) {
 	await connectToDatabase();

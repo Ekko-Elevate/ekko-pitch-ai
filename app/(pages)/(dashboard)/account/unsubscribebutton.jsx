@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-const { user } = useUser();
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function UnSubscribeButton() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,6 @@ export default function UnSubscribeButton() {
 					"Content-Type": "application/json",
 				},
 				// You might need to send some data, like a user ID or subscription ID
-				body: JSON.stringify({ UID: user.sub }),
 			});
 
 			if (!response.ok) {

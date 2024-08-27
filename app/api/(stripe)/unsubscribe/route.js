@@ -1,6 +1,10 @@
+import { NextResponse } from "next/server";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import { getCustomerID } from "@/app/_lib/mongoDB/utils/getcustomerID.js";
 import { removeBilling } from "@/app/_lib/mongoDB/utils/removebilling.js";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
 	api: {
@@ -17,7 +21,7 @@ export const DELETE = withApiAuthRequired(async function unsubscribe(req) {
 		// Fetch the user's Stripe customer ID from your database
 		// const user = await User.findById(userId);
 		const stripeCustomerID = await getCustomerID(user.sub);
-
+		console.log(stripeCustomerID);
 		// Fetch the customer's subscriptions
 		const subscriptions = await stripe.subscriptions.list({
 			customer: stripeCustomerID,

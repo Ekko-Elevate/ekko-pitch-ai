@@ -1,5 +1,7 @@
+import { connectToDatabase } from "@/app/_lib/mongoDB/connection/db.js";
+import { Billing } from "@/app/_lib/mongoDB/models/billing.js";
 //will add more functionality once we have more subscription plans
-async function getCustomerID(UID) {
+export async function getCustomerID(UID) {
 	await connectToDatabase();
 
 	try {
