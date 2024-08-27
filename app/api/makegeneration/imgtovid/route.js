@@ -75,7 +75,7 @@ export const POST = withApiAuthRequired(async function imgToVid(req) {
 
 		// await addCreation(user.sub, "test title", `${id}.mp4`);
 		await storeS3video(id);
-    await addCreation(user.sub, "test title", `${id}.mp4`);
+		await addCreation(user.sub, "test title", `${id}.mp4`);
 
 		//create presigned url
 		let url = await createpresignedurl(id);

@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const billingSchema = new mongoose.Schema(
 	{
-		UID: String,
+		UID: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		customerID: {
 			type: String,
 			required: true,
@@ -13,4 +17,6 @@ const billingSchema = new mongoose.Schema(
 	{ collection: "billings" }
 );
 
-export const Billing = mongoose.model("Billing", billingSchema);
+// export const Billing = mongoose.model("Billing", billingSchema);
+export const Billing =
+	mongoose.models.Billing || mongoose.model("Billing", billingSchema);
