@@ -25,6 +25,8 @@ export const POST = withApiAuthRequired(async function vidToVid(req) {
 	const video = formData.get("video");
 	const voiceOverPrompt = formData.get("voiceOverPrompt");
 	const musicPrompt = formData.get("musicPrompt");
+	const title = formData.get("title"); // New field
+
 	console.log(voiceOverPrompt);
 	console.log(musicPrompt);
 	if (!video) {
@@ -61,14 +63,14 @@ export const POST = withApiAuthRequired(async function vidToVid(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
-    
-		await storeS3video(id);
-    await addCreation(user.sub, "testtitle", `${id}.mp4`);
-		let url = await createpresignedurl(id);
 
+		await storeS3video(`${id}.mp4`, "video/mp4");
+		await addCreation(user.sub, title, `${id}.mp4`);
+		let url = await createpresignedurl(`${id}.mp4`);
+		console.log(url);
 		return NextResponse.json({ success: true, id, url });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });
 	}
-})
+});

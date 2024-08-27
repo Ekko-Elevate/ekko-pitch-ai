@@ -4,12 +4,12 @@ import { useEffect } from "react";
 
 export default function Clean() {
 	const { user, error, isLoading } = useUser();
-
-	useEffect(() => {
-		if (user) {
-			console.log(user);
-		}
-	}, [user]);
+	console.log(user);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		console.log(user);
+	// 	}
+	// }, [user]);
 
 	if (isLoading) return <div>Loading...</div>;
 	if (error) return <div>{error.message}</div>;

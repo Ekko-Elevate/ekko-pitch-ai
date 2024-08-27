@@ -58,7 +58,7 @@ export default function SubscribeButton({ priceId }) {
 
 	return (
 		<button
-			className="btn btn-primary btn-block"
+			className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900"
 			onClick={handleSubscribe}
 			disabled={isLoading}
 		>

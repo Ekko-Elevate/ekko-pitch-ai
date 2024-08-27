@@ -5,7 +5,6 @@ import { addNewUser } from "@/app/_lib/mongoDB/utils/addnewuser.js";
 //session must be the middle item, we use the "_" to ignore the 1st and 3rd parameter.
 const afterCallback = (_, session, __) => {
 	// console.log(session.user);
-	// console.log("michael");
 	addNewUser(session.user.sub, session.user.email);
 	return session;
 };

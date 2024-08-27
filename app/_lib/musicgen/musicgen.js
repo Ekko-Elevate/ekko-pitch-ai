@@ -3,28 +3,34 @@ import https from "https";
 import fs from "fs";
 
 const replicate = new Replicate({
-	auth: process.env.REPLICATE_API_TOKEN, // defaults to process.env.REPLICATE_API_TOKEN if not provided
+	auth: process.env.REPLICATE_API_TOKEN, // Ensure this is set in your environment
 });
+
 export async function musicGenerator(
 	id = "1234",
 	musicPrompt = "spooky music",
-	duration = 15
+	duration = 10
 ) {
-	const input = {
-		model_version: "stereo-large",
-		output_format: "mp3",
-		normalization_strategy: "peak",
-		duration: duration,
-		prompt: musicPrompt,
-	};
-	const output = await replicate.run(
-		"meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
-		{ input }
-	);
-	console.log(output);
+	try {
+		const input = {
+			model_version: "stereo-large",
+			output_format: "mp3",
+			normalization_strategy: "peak",
+			duration: duration,
+			prompt: musicPrompt,
+		};
 
-	await downloadFile(output, `app/api/makegeneration/_music/${id}.mp3`);
-	console.log("Download Completed");
+		const output = await replicate.run(
+			"meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
+			{ input }
+		);
+		console.log(output);
+
+		await downloadFile(output, `app/api/makegeneration/_music/${id}.mp3`);
+		console.log("Download Completed");
+	} catch (error) {
+		console.error("An error occurred:", error);
+	}
 }
 
 function downloadFile(url, outputPath) {
@@ -35,8 +41,7 @@ function downloadFile(url, outputPath) {
 				response.pipe(file);
 
 				file.on("finish", () => {
-					file.close();
-					resolve();
+					file.close(resolve);
 				});
 
 				file.on("error", (err) => {
