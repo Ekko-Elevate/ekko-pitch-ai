@@ -8,6 +8,7 @@ export default function VidToVid() {
 	const [title, setTitle] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [videoUrl, setVideoUrl] = useState(null);
+	const [outputVideoUrl, setOutputVideoUrl] = useState(null);
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
@@ -41,6 +42,7 @@ export default function VidToVid() {
 
 			if (response.ok) {
 				const jsonResponse = await response.json();
+				setOutputVideoUrl(jsonResponse.url);
 				console.log("Response JSON:", jsonResponse);
 				alert("Upload successful");
 			} else {
@@ -135,9 +137,31 @@ export default function VidToVid() {
 					</form>
 				</div>
 				<div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6 h-[650px]">
-					<p>Video Placeholder</p>
-					<p>Download Button</p>
-					<p>yo</p>
+					{outputVideoUrl ? (
+						<>
+							<video
+								key={outputVideoUrl}
+								controls
+								className="w-full h-auto mb-4"
+							>
+								<source src={outputVideoUrl} type="video/mp4" />
+								Your browser does not support the video tag.
+							</video>
+							<a
+								href={outputVideoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								download
+								className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+							>
+								View Video
+							</a>
+						</>
+					) : (
+						<p className="text-white">
+							Video will appear here after processing
+						</p>
+					)}
 				</div>
 			</div>
 		</div>
