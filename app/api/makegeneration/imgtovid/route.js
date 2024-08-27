@@ -6,6 +6,8 @@ import { mergeAudio } from "@/app/_lib/audiomanagement/mergeaudio";
 import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
 import { convertToVideo } from "@/app/_lib/runway/runway";
 import { v4 as uuidv4 } from "uuid";
+import { storeS3video } from "@/app/_lib/S3/storeS3video";
+import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl";
 import resizeImage from "@/app/_lib/imgresizer/imgresizer";
 import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
@@ -70,10 +72,15 @@ export const POST = withApiAuthRequired(async function imgToVid(req) {
 		);
 		console.log("Vid Created");
 		//s3 functionality here
-		await addCreation(user.sub, "test title", `${id}.mp4`);
 
 		// await addCreation(user.sub, "test title", `${id}.mp4`);
-		return NextResponse.json({ status: 200 });
+		await storeS3video(id);
+    await addCreation(user.sub, "test title", `${id}.mp4`);
+
+		//create presigned url
+		let url = await createpresignedurl(id);
+
+		return NextResponse.json({ success: true, id, url }, { status: 200 });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });

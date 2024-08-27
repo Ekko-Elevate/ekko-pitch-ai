@@ -4,6 +4,8 @@ import { musicGenerator } from "../../../_lib/musicgen/musicgen";
 import { voiceGenerator } from "../../../_lib/elevenlabs/elevenlabs";
 import { mergeAudio } from "../../../_lib/audiomanagement/mergeaudio";
 import { vidAddAudio } from "@/app/_lib/videomanagement/vidaddaudio";
+import { storeS3video } from "@/app/_lib/S3/storeS3video";
+import { createpresignedurl } from "@/app/_lib/S3/createpresignedurl";
 import { v4 as uuidv4 } from "uuid";
 import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
@@ -59,9 +61,12 @@ export async function POST(req) {
 			`./app/api/makegeneration/_output/${id}.mp4`
 		);
 		console.log("Vid Created");
-		await addCreation(user.sub, "testtitle", `${id}.mp4`);
+    
+		await storeS3video(id);
+    await addCreation(user.sub, "testtitle", `${id}.mp4`);
+		let url = await createpresignedurl(id);
 
-		return NextResponse.json({ success: true, id });
+		return NextResponse.json({ success: true, id, url });
 	} catch (error) {
 		console.error("Error in processing:", error);
 		return NextResponse.json({ error: "Processing failed" }, { status: 500 });

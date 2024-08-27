@@ -37,8 +37,10 @@ export default function VidToVid() {
 					method: "POST",
 					body: formData,
 				});
-
+				
 				if (response.ok) {
+					const jsonResponse = await response.json();
+  					console.log("Response JSON:", jsonResponse);
 					alert("Upload successful");
 				} else {
 					alert("Upload failed");
