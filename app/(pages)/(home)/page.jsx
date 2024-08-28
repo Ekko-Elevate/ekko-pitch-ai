@@ -1,16 +1,16 @@
-import Link from "next/link";
-import Image from "next/image";
-import Logo from "./Logo.jpg";
-import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
-import bodyGIF from "./body-armor.gif";
-import beachGIF from "./celsius-beach.gif";
-import poolGIF from "./celsius-pool.gif";
-import quandale from "./maxresdefault.jpg";
-import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
-import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
-import GraphicEqOutlinedIcon from "@mui/icons-material/GraphicEqOutlined";
-import picnic from "./perfect-picnic.jpg";
-import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
+import Link from 'next/link'; 
+import Image from 'next/image'; 
+import Logo from './Logo.png'; 
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import bodyGIF from './body-armor.gif';
+import beachGIF from './celsius-beach.gif';
+import poolGIF from './celsius-pool.gif';
+import fillerimage from './fillerimg.jpg';
+import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
+import VolumeUpOutlinedIcon from '@mui/icons-material/VolumeUpOutlined';
+import GraphicEqOutlinedIcon from '@mui/icons-material/GraphicEqOutlined';
+import picnic from './perfect-picnic.jpg';
+import SlideshowOutlinedIcon from '@mui/icons-material/SlideshowOutlined';
 
 export default function Home() {
 	return (
@@ -107,81 +107,75 @@ export default function Home() {
 				{/* Card 1 */}
 				<div className="flex flex-col lg:flex-row lg:justify-end w-full mt-8">
 					<div className="bg-gray-200 border-2 rounded-3xl w-full lg:w-5/12 h-fit py-10 px-10">
-						<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
-							Video Creation <VideocamOutlinedIcon className="text-6xl" />
-						</h1>
-						<p className="pb-8 text-[#0F172A] leading-loose">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean
-							et tortor at risus viverra adipiscing at in.
-						</p>
-						<div className="pb-8">
-							<Image
-								src={quandale}
-								width={1280}
-								height={720}
-								className="rounded-3xl justify-center"
-							/>
-						</div>
-						<Link href="about">
-							<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
-								Learn more <ArrowForwardOutlinedIcon className="ml-1" />
-							</button>
-						</Link>
+					<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
+						Video Creation <VideocamOutlinedIcon className="text-6xl" />
+					</h1>
+					<p className="pb-8 text-[#0F172A] leading-loose">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean et tortor at risus viverra adipiscing at in.
+					</p>
+					<div className="pb-8">
+						<Image 
+						src={fillerimage}
+						width={1280}
+						height={720}
+						className="rounded-3xl justify-center"
+						/>
+					</div>
+					<Link href='about'>
+						<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
+						Learn more <ArrowForwardOutlinedIcon className="ml-1" />
+						</button>
+					</Link>
 					</div>
 				</div>
 
 				{/* Card 2 */}
 				<div className="flex flex-col lg:flex-row lg:justify-start w-full lg:relative lg:-mt-96 mt-8">
 					<div className="bg-gray-200 border-2 rounded-3xl w-full lg:w-5/12 h-fit py-10 px-10">
-						<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
-							Audio Creation <VolumeUpOutlinedIcon className="text-5xl" />
-						</h1>
-						<p className="pb-8 text-[#0F172A] leading-loose">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean
-							et tortor at risus viverra adipiscing at in.
-						</p>
-						<div className="pb-8">
-							<Image
-								src={quandale}
-								width={1280}
-								height={720}
-								className="rounded-3xl justify-center"
-							/>
-						</div>
-						<Link href="about">
-							<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
-								Learn more <ArrowForwardOutlinedIcon className="ml-1" />
-							</button>
-						</Link>
+					<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
+						Audio Creation <VolumeUpOutlinedIcon className="text-5xl" />
+					</h1>
+					<p className="pb-8 text-[#0F172A] leading-loose">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean et tortor at risus viverra adipiscing at in.
+					</p>
+					<div className="pb-8">
+						<Image 
+						src={fillerimage}
+						width={1280}
+						height={720}
+						className="rounded-3xl justify-center"
+						/>
+					</div>
+					<Link href='about'>
+						<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
+						Learn more <ArrowForwardOutlinedIcon className="ml-1" />
+						</button>
+					</Link>
 					</div>
 				</div>
 
 				{/* Card 3 */}
 				<div className="flex flex-col lg:flex-row lg:justify-end w-full lg:relative lg:-mt-24 mt-8">
 					<div className="bg-gray-200 border-2 rounded-3xl w-full lg:w-5/12 h-fit py-10 px-10">
-						<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
-							Voice Creation <GraphicEqOutlinedIcon className="text-5xl" />
-						</h1>
-						<p className="pb-8 text-[#0F172A] leading-loose">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean
-							et tortor at risus viverra adipiscing at in.
-						</p>
-						<div className="pb-8">
-							<Image
-								src={quandale}
-								width={1280}
-								height={720}
-								className="rounded-3xl justify-center"
-							/>
-						</div>
-						<Link href="about">
-							<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
-								Learn more <ArrowForwardOutlinedIcon className="ml-1" />
-							</button>
-						</Link>
+					<h1 className="text-4xl text-[#0F172A] font-bold pb-8">
+						Voice Creation <GraphicEqOutlinedIcon className="text-5xl" />
+					</h1>
+					<p className="pb-8 text-[#0F172A] leading-loose">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean et tortor at risus viverra adipiscing at in.
+					</p>
+					<div className="pb-8">
+						<Image 
+						src={fillerimage}
+						width={1280}
+						height={720}
+						className="rounded-3xl justify-center"
+						/>
+					</div>
+					<Link href='about'>
+						<button className="font-bold text-lg bg-[#fff7db] text-[#02254D] px-4 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
+						Learn more <ArrowForwardOutlinedIcon className="ml-1" />
+						</button>
+					</Link>
 					</div>
 				</div>
 			</div>
