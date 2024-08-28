@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getSession } from "@auth0/nextjs-auth0";
+import { addBilling } from "@/app/_lib/mongoDB/utils/addbilling.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 

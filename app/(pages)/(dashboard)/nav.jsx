@@ -14,7 +14,7 @@ export default function Nav({ isMobile }) {
 
 	const toggleMenu = () => setIsOpen(!isOpen);
 
-	const navClasses = `fixed top-0 left-0 h-screen bg-zinc-600 transition-all duration-300 ease-in-out z-50
+	const navClasses = `fixed top-0 left-0 h-screen bg-[#02254D] transition-all duration-300 ease-in-out z-50
         ${
 					isMobile
 						? isOpen

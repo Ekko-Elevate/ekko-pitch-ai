@@ -1,63 +1,68 @@
 "use client";
-import { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function ImgToVid() {
 	const [imageFile, setImageFile] = useState(null);
 	const [voiceOverPrompt, setVoiceOverPrompt] = useState("");
 	const [musicPrompt, setMusicPrompt] = useState("");
 	const [scenePrompt, setScenePrompt] = useState("");
-
+	const [title, setTitle] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [imageUrl, setImageUrl] = useState(null);
-	const [videoId, setVideoId] = useState(null);
+	const [videoUrl, setVideoUrl] = useState(null);
 
-	const handleFileChange = useCallback((e) => {
+	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
 			setImageFile(file);
 			setImageUrl(URL.createObjectURL(file));
 		}
-	}, []);
+	};
 
-	const handleSubmit = useCallback(
-		async (e) => {
-			e.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-			if (!imageFile) {
-				alert("Please upload an image file");
-				return;
+		if (!imageFile) {
+			alert("Please upload an image file");
+			return;
+		}
+
+		setIsLoading(true);
+
+		const formData = new FormData();
+		formData.append("image", imageFile);
+		formData.append("voiceOverPrompt", voiceOverPrompt);
+		formData.append("musicPrompt", musicPrompt);
+		formData.append("scenePrompt", scenePrompt);
+		formData.append("title", title);
+
+		try {
+			const response = await fetch("/api/makegeneration/imgtovid", {
+				method: "POST",
+				body: formData,
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				setVideoUrl(data.url);
+				alert("Upload and processing successful");
+			} else {
+				alert("Upload failed");
 			}
+		} catch (error) {
+			console.error("Error:", error);
+			alert("An error occurred");
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-			setIsLoading(true);
-
-			const formData = new FormData();
-			formData.append("image", imageFile);
-			formData.append("voiceOverPrompt", voiceOverPrompt);
-			formData.append("musicPrompt", musicPrompt);
-			formData.append("scenePrompt", scenePrompt);
-
-			try {
-				const response = await fetch("/api/makegeneration/imgtovid", {
-					method: "POST",
-					body: formData,
-				});
-
-				if (response.ok) {
-					const data = await response.json();
-					setVideoId(data.id);
-					alert("Upload and processing successful");
-				} else {
-					alert("Upload failed");
-				}
-			} catch (error) {
-				console.error("Error:", error);
-				alert("An error occurred");
-			} finally {
-				setIsLoading(false);
-			}
-		},
-		[imageFile, voiceOverPrompt, musicPrompt, scenePrompt]
-	);
+	useEffect(() => {
+		// Clear video when a new image is uploaded
+		if (imageFile) {
+			setVideoUrl(null);
+		}
+	}, [imageFile]);
 
 	return (
 		<div className="flex flex-col w-full h-full px-4 sm:px-6">
@@ -91,6 +96,18 @@ export default function ImgToVid() {
 									onChange={handleFileChange}
 								/>
 							</label>
+						</div>
+						<div className="mb-4 sm:mb-6 flex flex-col">
+							<label htmlFor="title" className="text-white mb-2">
+								Title
+							</label>
+							<textarea
+								id="title"
+								className="rounded-lg border-2 border-white bg-white text-black p-2 resize-none h-20"
+								placeholder="Enter title"
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+							/>
 						</div>
 						<div className="mb-4 sm:mb-6 flex flex-col">
 							<label htmlFor="voice-over-prompt" className="text-white mb-2">
@@ -140,21 +157,20 @@ export default function ImgToVid() {
 					</form>
 				</div>
 				<div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center bg-[#002147] rounded-lg border-2 border-white p-4 sm:p-6 h-[650px]">
-					{videoId ? (
+					{videoUrl ? (
 						<>
-							<video controls className="w-full h-auto mb-4">
-								<source
-									src={`/api/makegeneration/_output/${videoId}.mp4`}
-									type="video/mp4"
-								/>
+							<video key={videoUrl} controls className="w-full h-auto mb-4">
+								<source src={videoUrl} type="video/mp4" />
 								Your browser does not support the video tag.
 							</video>
 							<a
-								href={`/api/makegeneration/_output/${videoId}.mp4`}
+								href={videoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
 								download
 								className="px-4 py-2 bg-blue-600 text-white rounded-lg"
 							>
-								Download Video
+								View Video
 							</a>
 						</>
 					) : (

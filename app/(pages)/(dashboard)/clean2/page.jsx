@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames"; // Import classnames utility
+import SubscribeButton from "./SubscribeButton";
 
 export default function About() {
 	// Static billing interval and products for display purposes
@@ -95,12 +96,10 @@ export default function About() {
 												/{billingInterval}
 											</span>
 										</p>
-										<button
-											type="button"
-											className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900"
-										>
-											Subscribe
-										</button>
+
+										<SubscribeButton
+											priceId={"price_1PmytHHkDOTpB3SeSeFXIXVo"}
+										/>
 									</div>
 								</div>
 							);

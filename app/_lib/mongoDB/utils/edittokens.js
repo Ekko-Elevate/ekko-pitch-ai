@@ -1,13 +1,13 @@
 import { connectToDatabase } from "../../_lib/mongoDB/db.js";
-import { User } from "../../_lib/mongoDB/user.js";
+import { User } from "../../_lib/mongoDB/models/user.js";
 
 export async function editTokens(UID, tokenAmount) {
 	await connectToDatabase();
 	try {
 		let totalTokens;
-		const user = (await User.findOne({ UID: UID })).isSelected("token_amount");
+		const user = (await User.findOne({ UID: UID })).isSelected("tokenAmount");
 		if (user) {
-			totalTokens = user.token_amount + tokenAmount;
+			totalTokens = user.tokenAmount + tokenAmount;
 		} else {
 			console.log(`No user found with UID: ${UID}`);
 			return null;
