@@ -1,11 +1,11 @@
 import Link from 'next/link'; 
 import Image from 'next/image'; 
-import Logo from './Logo.jpg'; 
+import Logo from './Logo.png'; 
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import bodyGIF from './body-armor.gif';
 import beachGIF from './celsius-beach.gif';
 import poolGIF from './celsius-pool.gif';
-import quandale from './maxresdefault.jpg';
+import fillerimage from './fillerimg.jpg';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import VolumeUpOutlinedIcon from '@mui/icons-material/VolumeUpOutlined';
 import GraphicEqOutlinedIcon from '@mui/icons-material/GraphicEqOutlined';
@@ -108,7 +108,7 @@ export default function Home() {
 					</p>
 					<div className="pb-8">
 						<Image 
-						src={quandale}
+						src={fillerimage}
 						width={1280}
 						height={720}
 						className="rounded-3xl justify-center"
@@ -133,7 +133,7 @@ export default function Home() {
 					</p>
 					<div className="pb-8">
 						<Image 
-						src={quandale}
+						src={fillerimage}
 						width={1280}
 						height={720}
 						className="rounded-3xl justify-center"
@@ -158,7 +158,7 @@ export default function Home() {
 					</p>
 					<div className="pb-8">
 						<Image 
-						src={quandale}
+						src={fillerimage}
 						width={1280}
 						height={720}
 						className="rounded-3xl justify-center"
