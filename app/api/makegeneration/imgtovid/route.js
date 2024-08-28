@@ -12,12 +12,6 @@ import resizeImage from "@/app/_lib/imgresizer/imgresizer";
 import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
-
 //with api auth required users MUST be signed in and api can only really be made from frontend.
 export const POST = withApiAuthRequired(async function imgToVid(req) {
 	const session = await getSession(req);

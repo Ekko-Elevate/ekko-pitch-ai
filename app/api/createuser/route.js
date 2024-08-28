@@ -1,5 +1,5 @@
-import { connectToDatabase } from "../../_lib/mongoDB/db.js";
-import { User } from "../../_lib/mongoDB/user.js";
+import { connectToDatabase } from "../../_lib/mongoDB/connection/db.js";
+import { User } from "../../_lib/mongoDB/models/user.js";
 import { NextResponse } from "next/server.js";
 
 export async function GET(req, res) {
