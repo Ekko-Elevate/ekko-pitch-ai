@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 *.env
-
+*.mp3
 # dependencies
 /node_modules
 /.pnp
@@ -36,3 +36,57 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Image formats
+
+*.jpeg
+*.jpe
+*.jif
+*.jfif
+*.jfi
+*.jp2
+*.j2k
+*.jpf
+*.jpx
+*.jpm
+*.mj2
+*.jxr
+*.hdp
+*.wdp
+*.gif
+*.png
+*.apng
+*.mng
+*.tiff
+*.tif
+*.svg
+*.svgz
+*.webp
+*.bmp
+*.dib
+*.ico
+*.heic
+*.heif
+
+# Video formats
+*.mp4
+*.m4v
+*.mov
+*.wmv
+*.avi
+*.mpg
+*.mpeg
+*.m4v
+*.3gp
+*.3g2
+*.mkv
+*.flv
+*.vob
+*.ogv
+*.ogg
+*.webm
+*.rmvb
+*.asf
+
+#audio
+*.mp3
+*.wav
