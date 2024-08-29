@@ -4,7 +4,8 @@ const os = require("os");
 
 const platform = os.platform();
 const arch = os.arch();
-
+console.log(platform);
+console.log(arch);
 let ffmpegPath;
 
 if (platform === 'win32') {
@@ -16,15 +17,13 @@ if (platform === 'win32') {
         "ffmpeg.exe"
     );
 } else if (platform === 'linux') {
-	ffmpegPath = '/app/vendor/ffmpeg/ffmpeg';
-	console.log("linux");
-    // ffmpegPath = path.resolve(
-    //     process.cwd(),
-    //     "node_modules",
-    //     "@ffmpeg-installer",
-    //     `linux-${arch}`,
-    //     "ffmpeg"
-    // );
+    ffmpegPath = path.resolve(
+        process.cwd(),
+        "node_modules",
+        "@ffmpeg-installer",
+        `linux-${arch}`,
+        "ffmpeg"
+    );
 } else if (platform === 'darwin') {
     ffmpegPath = path.resolve(
         process.cwd(),
