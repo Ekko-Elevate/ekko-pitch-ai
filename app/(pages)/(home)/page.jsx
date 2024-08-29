@@ -30,7 +30,7 @@ export default function Home() {
 						keep it safe, and let you collaborate with ease.
 					</p>
 					<div className="flex flex-row justify-between space-x-4 mb-20">
-						<Link href="/sign-up" className="flex items-center">
+						<Link href="/dashboard" className="flex items-center">
 							<button className="font-bold text-lg bg-[#fff7db] text-black px-14 py-6 rounded-2xl hover:bg-gray-400 cursor-pointer">
 								Start Creating Now
 								<ArrowForwardOutlinedIcon className="ml-5" />
@@ -54,12 +54,12 @@ export default function Home() {
 							lo mein from the Chinese takeout spot you've been meaning to try
 						</p>
 						<div className="gap-4 md:gap-6 flex flex-wrap items-center">
-							<Link href="sign-up">
+							<Link href="dashboard">
 								<button className="font-bold text-md md:text-lg bg-[#02254D] text-white px-4 md:px-5 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
 									Try free <ArrowForwardOutlinedIcon className="ml-1" />
 								</button>
 							</Link>
-							<Link href="sign-in">
+							<Link href="dashboard">
 								<span className="font-bold text-sm md:text-md lg:underline lg:underline-offset-4 lg:decoration-1 text-black cursor-pointer inline">
 									Already have an account? Sign in
 								</span>
@@ -85,7 +85,7 @@ export default function Home() {
 							Get a slice of pizza or the whole pie delivered, or pick up house
 							lo mein from the Chinese takeout spot you've been meaning to try
 						</p>
-						<Link href="sign-up">
+						<Link href="dashboard">
 							<button className="font-bold text-md md:text-lg bg-[#02254D] text-white px-4 md:px-5 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
 								Get creating <SlideshowOutlinedIcon className="ml-1" />
 							</button>
