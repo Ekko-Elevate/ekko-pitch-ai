@@ -115,10 +115,10 @@ const Navbar = ({children}) => {
 								<Link href="/howtouse" onClick={closeMenu}>
 									<div className="font-bold text-lg py-2">How to Use</div>
 								</Link>
-								<Link href="/sign-up" onClick={closeMenu}>
+								<Link href="/dashboard" onClick={closeMenu}>
 									<div className="font-bold text-lg py-2">Sign Up</div>
 								</Link>
-								<Link href="/sign-in" onClick={closeMenu}>
+								<Link href="/dashboard" onClick={closeMenu}>
 									<div className="font-bold text-lg py-2">Sign In</div>
 								</Link>
 							</div>

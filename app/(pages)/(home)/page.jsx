@@ -30,7 +30,7 @@ export default function Home() {
 						keep it safe, and let you collaborate with ease.
 					</p>
 					<div className="flex flex-row justify-between space-x-4 mb-20">
-						<Link href="/sign-up" className="flex items-center">
+						<Link href="/dashboard" className="flex items-center">
 							<button className="font-bold text-lg bg-[#fff7db] text-black px-14 py-6 rounded-2xl hover:bg-gray-400 cursor-pointer">
 								Start Creating Now
 								<ArrowForwardOutlinedIcon className="ml-5" />
