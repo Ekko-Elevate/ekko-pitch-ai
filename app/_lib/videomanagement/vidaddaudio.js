@@ -1,12 +1,19 @@
 const path = require("path");
 const ffmpeg = require("fluent-ffmpeg");
+const os = require("os");
+
+const platform = os.platform(); // e.g., 'win32', 'linux', 'darwin'
+const arch = os.arch(); // e.g., 'x64', 'arm64'
+
+// Construct the path to the ffmpeg executable
 const ffmpegPath = path.resolve(
 	process.cwd(),
 	"node_modules",
 	"@ffmpeg-installer",
-	"win32-x64",
-	"ffmpeg.exe"
+	`${platform}-${arch}`,
+	"ffmpeg.exe" // On Linux/Mac, this could just be 'ffmpeg' without the '.exe'
 );
+
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 export async function vidAddAudio(
