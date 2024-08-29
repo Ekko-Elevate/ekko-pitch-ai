@@ -4,7 +4,7 @@ const path = require("path");
 export async function convertToVideo(id, filePath, scenePrompt) {
 	let browser = null;
 	try {
-		browser = await playwright.chromium.launch({ headless: false });
+		browser = await playwright.chromium.launch({ headless: true });
 		const context = await browser.newContext();
 		const page = await context.newPage();
 
