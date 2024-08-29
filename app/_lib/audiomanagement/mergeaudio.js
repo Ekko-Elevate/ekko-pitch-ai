@@ -1,42 +1,7 @@
-const path = require("path");
 const ffmpeg = require("fluent-ffmpeg");
-const os = require("os");
+const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 
-const platform = os.platform();
-const arch = os.arch();
-console.log(platform);
-console.log(arch);
-let ffmpegPath;
-
-if (platform === 'win32') {
-    ffmpegPath = path.resolve(
-        process.cwd(),
-        "node_modules",
-        "@ffmpeg-installer",
-        `win32-${arch}`,
-        "ffmpeg.exe"
-    );
-} else if (platform === 'linux') {
-    ffmpegPath = path.resolve(
-        process.cwd(),
-        "node_modules",
-        "@ffmpeg-installer",
-        `linux-${arch}`,
-        "ffmpeg"
-    );
-} else if (platform === 'darwin') {
-    ffmpegPath = path.resolve(
-        process.cwd(),
-        "node_modules",
-        "@ffmpeg-installer",
-        `darwin-${arch}`,
-        "ffmpeg"
-    );
-} else {
-    throw new Error(`Unsupported platform: ${platform}`);
-}
-
-ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 export async function mergeAudio(
 	voicepath,
 	musicpath,
