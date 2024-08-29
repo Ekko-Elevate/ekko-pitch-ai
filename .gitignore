@@ -37,7 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 # Image formats
-*.jpg
+
 *.jpeg
 *.jpe
 *.jif
