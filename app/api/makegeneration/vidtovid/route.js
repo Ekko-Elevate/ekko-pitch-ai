@@ -11,11 +11,6 @@ import { addCreation } from "@/app/_lib/mongoDB/utils/addcreation";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
 //IF THIS CODE DOESNT WORK MAKE SURE MUSIC GEN AND VOICE GEN BELOW ISNT COMMENTED OUT
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
 
 export const POST = withApiAuthRequired(async function vidToVid(req) {
 	const session = await getSession(req);

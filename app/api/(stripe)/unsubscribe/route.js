@@ -6,23 +6,15 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
-//with api auth required users MUST be signed in and api can only really be made from frontend.
 export const DELETE = withApiAuthRequired(async function unsubscribe(req) {
 	try {
-		// Get the user's ID or subscription ID from the request body
 		const session = await getSession(req);
 		const user = session.user;
 		console.log(user);
-		// Fetch the user's Stripe customer ID from your database
-		// const user = await User.findById(userId);
+
 		const stripeCustomerID = await getCustomerID(user.sub);
 		console.log(stripeCustomerID);
-		// Fetch the customer's subscriptions
+
 		const subscriptions = await stripe.subscriptions.list({
 			customer: stripeCustomerID,
 		});
@@ -34,7 +26,6 @@ export const DELETE = withApiAuthRequired(async function unsubscribe(req) {
 			);
 		}
 
-		// Cancel the subscription
 		console.log("///////////////////////////////////////");
 		console.log(subscriptions.data);
 
@@ -53,5 +44,4 @@ export const DELETE = withApiAuthRequired(async function unsubscribe(req) {
 			{ status: 500 }
 		);
 	}
-	return new Response(`A User unsubscribed!`);
 });

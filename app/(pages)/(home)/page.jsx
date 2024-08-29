@@ -32,7 +32,7 @@ export default function Home() {
 					<div className="flex flex-row justify-between space-x-4 mb-20">
 						<Link href="/sign-up" className="flex items-center">
 							<button className="font-bold text-lg bg-[#fff7db] text-black px-14 py-6 rounded-2xl hover:bg-gray-400 cursor-pointer">
-								Sign up free
+								Start Creating Now
 								<ArrowForwardOutlinedIcon className="ml-5" />
 							</button>
 						</Link>
