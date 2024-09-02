@@ -42,7 +42,7 @@ export default function Home() {
 			{/*main stuff type shit*/}
 			<div className="flex flex-col overflow-hidden w-full h-auto bg-[#fff9EB] px-6 md:px-12 lg:px-24 gap-16 md:gap-28 py-12 md:py-24">
 				<div className="flex flex-col lg:flex-row justify-center items-center w-full gap-8 md:gap-16">
-					<div className="flex flex-col gap-4 md:gap-6 w-full lg:w-4/12">
+					<div className="flex flex-col gap-4 md:gap-6 w-full lg:w-4/12 order-2 lg:order-1">
 						<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F172A]">
 							Everything you want, created in minutes.
 						</h1>
@@ -54,19 +54,19 @@ export default function Home() {
 							lo mein from the Chinese takeout spot you've been meaning to try
 						</p>
 						<div className="gap-4 md:gap-6 flex flex-wrap items-center">
-							<Link href="dashboard">
-								<button className="font-bold text-md md:text-lg bg-[#02254D] text-white px-4 md:px-5 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
-									Try free <ArrowForwardOutlinedIcon className="ml-1" />
-								</button>
-							</Link>
-							<Link href="dashboard">
-								<span className="font-bold text-sm md:text-md lg:underline lg:underline-offset-4 lg:decoration-1 text-black cursor-pointer inline">
-									Already have an account? Sign in
-								</span>
-							</Link>
+						<Link href="dashboard">
+							<button className="font-bold text-md md:text-lg bg-[#02254D] text-white px-4 md:px-5 py-2 rounded-full hover:bg-gray-400 cursor-pointer">
+								Try free <ArrowForwardOutlinedIcon className="ml-1" />
+							</button>
+						</Link>
+						<Link href="dashboard">
+							<span className="font-bold text-sm md:text-md lg:underline lg:underline-offset-4 lg:decoration-1 text-black cursor-pointer inline">
+								Already have an account? Sign in
+							</span>
+						</Link>
 						</div>
 					</div>
-					<div className="w-full md:w-auto h-auto">
+					<div className="w-full md:w-auto h-auto order-1 lg:order-2">
 						<Image src={picnic} className="justify-center" />
 					</div>
 				</div>
