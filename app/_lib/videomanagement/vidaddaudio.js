@@ -26,6 +26,7 @@ if (platform === "win32") {
 } else {
 	throw new Error("Unsupported platform: " + platform);
 }
+
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 export async function vidAddAudio(

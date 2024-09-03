@@ -4,8 +4,7 @@
 //return array of user's creation title
 import { connectToDatabase } from "../../_lib/mongoDB/connection/db.js";
 import { NextResponse } from "next/server.js";
-import { User } from "../../_lib/mongoDB/models/user.js";
-import { Creation } from "../../_lib/mongoDB/models/creations.js";
+import { getCreations } from "@/app/_lib/mongoDB/utils/getcreations";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
 export const GET = withApiAuthRequired(async function makeGenRoute(req) {

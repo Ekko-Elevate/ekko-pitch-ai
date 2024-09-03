@@ -4,7 +4,7 @@ const path = require("path");
 export async function convertToVideo(id, filePath, scenePrompt) {
 	let browser = null;
 	try {
-		browser = await playwright.chromium.launch({ headless: false });
+		browser = await playwright.chromium.launch({ headless: true });
 		const context = await browser.newContext();
 		const page = await context.newPage();
 
@@ -83,7 +83,7 @@ export async function convertToVideo(id, filePath, scenePrompt) {
 			const downloadButtonSelector =
 				"#gen2-next-layout-feed-container > div:nth-child(2) > div > div.Base__Box-sc-1rhgz1n-0.Output___StyledBox-sc-4ct5lz-0.dlfTEu > div.Output___StyledDiv-sc-4ct5lz-1.juAqeX > div > div:nth-child(3) > button:nth-child(1) > svg";
 			const downloadButtonElement = page.locator(downloadButtonSelector);
-			await downloadButtonElement.waitFor({ timeout: 90000 });
+			await downloadButtonElement.waitFor({ timeout: 140000 });
 			await page.click(downloadButtonSelector);
 			const download = await page.waitForEvent("download");
 			const creationPath = path.join(
