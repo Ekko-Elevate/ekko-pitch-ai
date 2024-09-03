@@ -1,4 +1,3 @@
-const path = require("path");
 const ffmpeg = require("fluent-ffmpeg");
 const os = require("os");
 

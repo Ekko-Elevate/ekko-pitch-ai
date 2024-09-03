@@ -20,7 +20,7 @@ export default function Gallery() {
           throw new Error('Failed to fetch data');
         }
         const result = await response.json();
-        console.log('API response:', result); // Log the API respons
+        console.log('API response:', result); // Log the API respon
         setData(result);
       } catch (err) {
         console.error('Fetch error:', err);
