@@ -1,6 +1,6 @@
 const ffmpeg = require("fluent-ffmpeg");
 const os = require("os");
-
+const path = require("path");
 const platform = os.platform();
 const arch = os.arch();
 
