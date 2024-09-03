@@ -1,9 +1,10 @@
-import sharp from "sharp";
 import fs, { unlink } from "fs/promises";
 import path from "path";
-sharp.cache(false);
 
 export default async function resizeImage(filePath) {
+	const sharp = await import("sharp");
+	sharp.cache(false);
+
 	try {
 		console.log(filePath);
 		const tempPath = path.join(
@@ -11,7 +12,8 @@ export default async function resizeImage(filePath) {
 			`temp_${path.basename(filePath)}`
 		);
 
-		await sharp(filePath)
+		await sharp
+			.default(filePath)
 			.resize({
 				width: 1280,
 				height: 768,
@@ -19,7 +21,6 @@ export default async function resizeImage(filePath) {
 				background: { r: 0, g: 0, b: 0, alpha: 1 },
 			})
 			.toFile(tempPath);
-
 		try {
 			await deleteFile(filePath);
 		} catch (error) {
